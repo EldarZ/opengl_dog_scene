@@ -1,131 +1,166 @@
 #include "stdafx.h"
+#include <GL/glut.h>
+#include <cmath>
+#include <ctime>
 
-#include <windows.h>
-#include <iostream>
-#include <GL\freeglut.h>
-using namespace std;
+bool bOne = true,
+bTwo = false;
 
-static int WINDOW_WIDTH = 400;
-static int WINDOW_HEIGHT = 400;
-static float PI = 3.1415926535;
+float fAngle = 0.0;
 
-void handleMouse(int button, int state, int x, int y) {
-	switch (button) {
-	case GLUT_RIGHT_BUTTON:
-		int currentScale = std::fmin(WINDOW_WIDTH, WINDOW_HEIGHT);
-		//Exit rect location : (0.89, 0.0, 1.0, 0.05);
-		bool isXInExitRect = x < currentScale && x > currentScale - currentScale * 0.11;
-		bool isYInExitRect = y < currentScale && y > currentScale - currentScale * 0.05;
-		if (state == GLUT_DOWN && isXInExitRect && isYInExitRect) {
-			exit(0);
-		}
-		break;
-	}
-}
+float fEyeX = 0.0f, fEyeY = 1.75f, fEyeZ = 5.0f;
+float fCenterX = 0.0f, fCenterY = 0.0f, fCenterZ = -1.0f;
 
-void handleResize(int w, int h) {
-	int newScale = std::fmin(w, h);
-	glViewport(0, h - newScale, newScale, newScale);
-	WINDOW_WIDTH = w;
-	WINDOW_HEIGHT = h;
-}
+float fRatio = 1.0;
 
-void drawText(GLfloat x, GLfloat y, string text, void *font) {
-	glRasterPos2f(x, y);
-	for (unsigned int i = 0; i < text.length(); i++) {
-		glutBitmapCharacter(font, text[i]);
-	}
-}
-void drawScene() {
-	glClear(GL_COLOR_BUFFER_BIT);
+void DrawSnowMan();
 
-	//sun
-	glColor3f(1.0, 1.0, 0.0);
-	glBegin(GL_POLYGON);
-	for (GLfloat angle = 0; angle <= 2 * PI; angle += 0.01)
-		glVertex2f(0.75f + cos(angle)*0.1, 0.75f + sin(angle)*0.1);
-	glEnd();
+void Reshape(int width, int height)
+{
+	// Set the viewport to be the entire window
+	glViewport(0, 0, width, height);
 
-	//waves
-	const int wavesCount = 100;
-	float blueOffsets[wavesCount];
-	float yOffsets[wavesCount];
-	float xOffsets[wavesCount];
+	// Prevent a divide by zero, when window is too short
+	// (you cant make a window of zero width).
+	if (height == 0)
+		height = 1;
 
-	for (int i = 0; i < wavesCount; i++) {
-		blueOffsets[i] = ((double)i / wavesCount) * 0.5;
-		yOffsets[i] = ((double)i / wavesCount) * 0.1 + 0.9;
-		xOffsets[i] = ((double)i / wavesCount) - 1.0;
-	}
+	fRatio = 1.0f * width / height;
 
-	for (GLint i = 0; i < wavesCount; i++) {
-		GLfloat blueOffset = blueOffsets[i];
-		GLfloat yOffset = yOffsets[i];
-		GLfloat xOffset = xOffsets[i];
-		glColor3f(blueOffset, blueOffset, 1.0);
-		glLineWidth(10);
-		glBegin(GL_LINE_STRIP);
-		for (GLfloat x = xOffset, y = -4.0; x < 1.1; x += 0.008, y += 0.08) {
-			glVertex2f(x, (sin(y) + yOffset)*0.05);
-		}
-		glEnd();
-	}
-
-	//boat
-	glColor3f(0.51, 0.39, 0.2);
-	glBegin(GL_POLYGON);
-	glVertex2f(0.205, 0.11);
-	glVertex2f(0.355, 0.1075);
-	glVertex2f(0.45, 0.17);
-	glVertex2f(0.095, 0.18);
-	glEnd();
-
-	glColor3f(1.00, 0.7, 0.7);
-	glBegin(GL_POLYGON);
-	glVertex2f(0.175, 0.195);
-	glVertex2f(0.29, 0.645);
-	glVertex2f(0.2725, 0.1975);
-	glEnd();
-
-	glColor3f(1.0, 0.6, 0.6);
-	glBegin(GL_POLYGON);
-	glVertex2f(0.3075, 0.7325);
-	glVertex2f(0.285, 0.205);
-	glVertex2f(0.3975, 0.2025);
-	glEnd();
-
-	//name and title
-	glColor3f(0.0, 0.0, 0.8);
-	drawText(0.8, 0.95, "Eldar Zilberman", GLUT_BITMAP_TIMES_ROMAN_10);
-	glColor3f(0.3, 0.3, 0.3);
-	drawText(0.77f, 0.92f, "Boat in the ocean", GLUT_BITMAP_HELVETICA_10);
-
-	//exit button
-	glColor3f(0.9, 0.9, 0.9);
-	glRectf(0.89, 0.0, 1.0, 0.05);
-	glColor3f(0.0, 0.0, 0.0);
-	drawText(0.92f, 0.01f, "EXIT", GLUT_BITMAP_TIMES_ROMAN_10);
-
-	glFlush();
-	glutSwapBuffers();
-}
-
-int main(int argc, char** argv) {
-	glutInitWindowPosition(200, 200);
-	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-	glutCreateWindow("Boat in the Ocean - Eldar Zilberman");
-
-	glClearColor(0.75f, 1.0f, 1.0f, 0.0f);
+	// Reset the coordinate system before modifying
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0);
 
-	glutDisplayFunc(drawScene);
-	glutMouseFunc(handleMouse);
-	glutReshapeFunc(handleResize);
+	// Set the clipping volume
+	gluPerspective(45, fRatio, 1, 1000);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	gluLookAt(fEyeX, fEyeY, fEyeZ,
+		fEyeX + fCenterX, fEyeY + fCenterY, fEyeZ + fCenterZ,
+		0.0f, 1.0f, 0.0f);
+}
+
+void Init()
+{
+	glClearColor(0.0, 0.0, 0.0, 0.0);
+	glEnable(GL_DEPTH_TEST);
+}
+
+void Display(void)
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// Draw ground
+
+	glColor3f(0.9f, 0.9f, 0.9f);
+	glBegin(GL_QUADS);
+	glVertex3f(-100.0f, 0.0f, -100.0f);
+	glVertex3f(-100.0f, 0.0f, 100.0f);
+	glVertex3f(100.0f, 0.0f, 100.0f);
+	glVertex3f(100.0f, 0.0f, -100.0f);
+	glEnd();
+
+	// Draw 36 SnowMen
+	//glTranslatef (0, 1.2, 0);
+
+	for (int i = -3; i < 3; i++)
+		for (int j = -3; j < 3; j++) {
+			glPushMatrix();
+			glTranslatef(i * 10.0, 1.2, j * 10.0);
+			DrawSnowMan();
+			glPopMatrix();
+		}
+
+
+	glutSwapBuffers();
+	glFlush();
+}
+
+void OrientMe(float ang)
+{
+	fCenterX = sin(ang);
+	fCenterZ = -cos(ang);
+
+	glLoadIdentity();
+
+	gluLookAt(fEyeX, fEyeY, fEyeZ,
+		fEyeX + fCenterX, fEyeY + fCenterY, fEyeZ + fCenterZ,
+		0.0f, 1.0f, 0.0f);
+}
+
+void MoveMeFlat(int i)
+{
+	fEyeX = fEyeX + i * (fCenterX) * 0.1;
+	fEyeZ = fEyeZ + i * (fCenterY) * 0.1;
+
+	glLoadIdentity();
+
+	gluLookAt(fEyeX, fEyeY, fEyeZ,
+		fEyeX + fCenterX, fEyeY + fCenterY, fEyeZ + fCenterZ,
+		0.0f, 1.0f, 0.0f);
+}
+
+void ProcessSpecialKeys(int key, int x, int y) {
+
+	switch (key)
+	{
+	case GLUT_KEY_RIGHT:
+		fAngle -= 0.01f;
+		OrientMe(fAngle); break;
+	case GLUT_KEY_LEFT:
+		fAngle += 0.01f;
+		OrientMe(fAngle); break;
+	case GLUT_KEY_UP:
+		MoveMeFlat(1); break;
+	case GLUT_KEY_DOWN:
+		MoveMeFlat(-1); break;
+	}
+}
+
+void main(int argc, char **argv)
+{
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGB);
+	glutInitWindowPosition(100, 100);
+	glutInitWindowSize(600, 600);
+	glutCreateWindow("SnowMen");
+
+	Init();
+
+	glutSpecialFunc(ProcessSpecialKeys);
+
+	glutDisplayFunc(Display);
+	glutIdleFunc(Display);
+
+	glutReshapeFunc(Reshape);
 
 	glutMainLoop();
-	return 0;
+}
+
+void DrawSnowMan()
+{
+	glColor3f(1.0f, 1.0f, 1.0f);
+
+	// Draw Body	
+	glTranslatef(0.0f, 0.75f, 0.0f);
+	glutSolidSphere(0.75f, 20, 20);
+
+	// Draw Head
+	glTranslatef(0.0f, 1.0f, 0.0f);
+	glutSolidSphere(0.25f, 20, 20);
+
+	// Draw Eyes
+	glPushMatrix();
+	glColor3f(0.0f, 0.0f, 0.0f);
+	glTranslatef(0.05f, 0.10f, 0.18f);
+	glutSolidSphere(0.05f, 10, 10);
+	glTranslatef(-0.1f, 0.0f, 0.0f);
+	glutSolidSphere(0.05f, 10, 10);
+	glPopMatrix();
+
+	// Draw Nose
+	glColor3f(1.0f, 0.5f, 0.5f);
+	glutSolidCone(0.08f, 0.5f, 10, 2);
 }
