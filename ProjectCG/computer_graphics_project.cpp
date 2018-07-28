@@ -123,25 +123,33 @@ public:
 		glutSolidCube(1);
 		glPopMatrix();
 
+		//head rotation
 		glPushMatrix();
 		glRotatef(10, 1, 0, 0);
 
 		//head
 		glPushMatrix();
 		glTranslated(0, 2.5, 3);
-		glScalef(2, 2.2, 3);
+		glScalef(2, 2.1, 2.2);
+		glutSolidCube(1);
+		glPopMatrix();
+
+		//nose
+		glPushMatrix();
+		glTranslated(0, 2.2, 4);
+		glScalef(1.5, 1, 2);
 		glutSolidCube(1);
 		glPopMatrix();
 
 		//ears
 		glPushMatrix();
-		glTranslated(-0.8, 3.7, 2.6);
+		glTranslated(-0.8, 3.8, 2.6);
 		glScalef(0.5, 1, 0.5);
 		glutSolidCube(1);
 		glPopMatrix();
 
 		glPushMatrix();
-		glTranslated(0.8, 3.7, 2.6);
+		glTranslated(0.8, 3.8, 2.6);
 		glScalef(0.5, 1, 0.5);
 		glutSolidCube(1);
 		glPopMatrix();
@@ -160,13 +168,13 @@ public:
 		glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, black);
 
 		glPushMatrix();
-		glTranslated(0.5, 2.6, 4.5);
+		glTranslated(0.5, 3.0, 4.1);
 		glScalef(0.25, 0.25, 0.25);
 		glutSolidCube(1);
 		glPopMatrix();
 
 		glPushMatrix();
-		glTranslated(-0.5, 2.6, 4.5);
+		glTranslated(-0.5, 3.0, 4.1);
 		glScalef(0.25, 0.25, 0.25);
 		glutSolidCube(1);
 		glPopMatrix();
