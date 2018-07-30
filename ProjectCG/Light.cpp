@@ -19,3 +19,4 @@ void Light::draw() {
 
 	glPopMatrix();
 }
+

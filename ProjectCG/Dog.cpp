@@ -25,46 +25,46 @@ void Dog::draw() {
 
 	//scale to model with higher values
 	glScalef(0.3, 0.3, 0.3);
-	glTranslated(0, 3.5, 0);
-
-	glPushMatrix();
-	glScalef(3, 3, 5);
-	glutSolidCube(1);
-	glPopMatrix();
+	glTranslated(1, 3.5, 0);
 
 	//torso
 	glPushMatrix();
-	glTranslated(-1, -2.5, -2);
-	glScalef(1, 2, 1);
-	glutSolidCube(1);
+	glScalef(2, 2, 4);
+	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
 
 	//legs
 	glPushMatrix();
+	glTranslated(-1, -2.5, -2);
+	glScalef(0.5, 2, 0.5);
+	glutSolidSphere(1, 30, 30);
+	glPopMatrix();
+
+	glPushMatrix();
 	glTranslated(1, -2.5, -2);
-	glScalef(1, 2, 1);
-	glutSolidCube(1);
+	glScalef(0.5, 2, 0.5);
+	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslated(1, -2.5, 2);
-	glScalef(1, 2, 1);
-	glutSolidCube(1);
+	glScalef(0.5, 2, 0.5);
+	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslated(-1, -2.5, 2);
-	glScalef(1, 2, 1);
-	glutSolidCube(1);
+	glScalef(0.5, 2, 0.5);
+	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
 
 	//tail
 	glPushMatrix();
-	glTranslated(0, 0.5, -3.3);
+	glTranslated(0, 0.5, -3.8);
 	glRotatef(-30, 1, 0, 0);
 	glScalef(0.5, 0.5, 1.8);
 
-	glutSolidCube(1);
+	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
 
 	//head rotation
@@ -74,28 +74,28 @@ void Dog::draw() {
 	//head
 	glPushMatrix();
 	glTranslated(0, 2.5, 3);
-	glScalef(2, 2.1, 2.2);
-	glutSolidCube(1);
+	glScalef(1.5, 1.55, 1.6);
+	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
 
 	//nose
 	glPushMatrix();
-	glTranslated(0, 2.2, 4);
-	glScalef(1.5, 1, 2);
-	glutSolidCube(1);
+	glTranslated(0, 2.2, 4.2);
+	glScalef(0.8, 0.5, 1.5);
+	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
 
 	//ears
 	glPushMatrix();
 	glTranslated(-0.8, 3.8, 2.6);
 	glScalef(0.5, 1, 0.5);
-	glutSolidCube(1);
+	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslated(0.8, 3.8, 2.6);
 	glScalef(0.5, 1, 0.5);
-	glutSolidCube(1);
+	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
 
 	//eyes
@@ -112,13 +112,13 @@ void Dog::draw() {
 	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, black);
 
 	glPushMatrix();
-	glTranslated(0.5, 3.0, 4.1);
+	glTranslated(0.5, 3.0, 4.4);
 	glScalef(0.25, 0.25, 0.25);
 	glutSolidCube(1);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslated(-0.5, 3.0, 4.1);
+	glTranslated(-0.5, 3.0, 4.4 );
 	glScalef(0.25, 0.25, 0.25);
 	glutSolidCube(1);
 	glPopMatrix();

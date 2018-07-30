@@ -161,7 +161,7 @@ void display() {
 	gLamp.draw();
 	gDog.draw();
 	gFloor.draw();
-	gTable.draw();
+	//gTable.draw();
 
 	glFlush();
 	glutSwapBuffers();
