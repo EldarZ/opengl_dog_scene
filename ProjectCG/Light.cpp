@@ -9,7 +9,7 @@ void Light::draw() {
 
 	glLightfv(GL_LIGHT0, GL_SPECULAR, color);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, color);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
 
 	glColor3fv(color);
 	GLfloat ambient[] = { 10.0, 10.0, 10.0, 1.0 };

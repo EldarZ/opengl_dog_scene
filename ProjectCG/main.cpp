@@ -51,7 +51,7 @@ class Table{
 public:
 	void draw() {
 		glPushMatrix();
-		GLfloat color[3] = { 1.0, 0.0, 0.0 };
+		GLfloat color[3] = { 0.651, 0.502, 0.392 };
 		glColor3fv(color);
 
 		GLfloat table_ambient[] = { 0.001f, 0.001f, 0.001f },
@@ -68,45 +68,36 @@ public:
 
 		//scale to model with higher values
 		glScalef(0.3, 0.3, 0.3);
-		glTranslated(0, 3.5, 0);
+		glTranslated(-7, 3.5, -7);
 
 		glPushMatrix();
-		glScalef(3, 3, 5);
+		glScalef(7, 0.5, 7);
 		glutSolidCube(1);
 		glPopMatrix();
 
 		//torso
 		glPushMatrix();
-		glTranslated(-1, -2.5, -2);
-		glScalef(1, 2, 1);
+		glTranslated(-2.5, -1.75, -2);
+		glScalef(1, 3.5, 1);
 		glutSolidCube(1);
 		glPopMatrix();
 
 		//legs
 		glPushMatrix();
-		glTranslated(1, -2.5, -2);
-		glScalef(1, 2, 1);
+		glTranslated(2.5, -1.75, -2);
+		glScalef(1, 3.5, 1);
 		glutSolidCube(1);
 		glPopMatrix();
 
 		glPushMatrix();
-		glTranslated(1, -2.5, 2);
-		glScalef(1, 2, 1);
+		glTranslated(-2.5, -1.75, 2);
+		glScalef(1, 3.5, 1);
 		glutSolidCube(1);
 		glPopMatrix();
 
 		glPushMatrix();
-		glTranslated(-1, -2.5, 2);
-		glScalef(1, 2, 1);
-		glutSolidCube(1);
-		glPopMatrix();
-
-		//tail
-		glPushMatrix();
-		glTranslated(0, 0.5, -3.3);
-		glRotatef(-30, 1, 0, 0);
-		glScalef(0.5, 0.5, 1.8);
-
+		glTranslated(2.5, -1.75, 2);
+		glScalef(1, 3.5, 1);
 		glutSolidCube(1);
 		glPopMatrix();
 
@@ -161,7 +152,7 @@ void display() {
 	gLamp.draw();
 	gDog.draw();
 	gFloor.draw();
-	//gTable.draw();
+	gTable.draw();
 
 	glFlush();
 	glutSwapBuffers();
