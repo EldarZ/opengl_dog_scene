@@ -1,5 +1,8 @@
 #include <windows.h>
 #include <iostream>
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_freeglut.h"
+#include "imgui/imgui_impl_opengl2.h"
 #include <GL\freeglut.h>
 
 #include "Dog.h"
@@ -130,6 +133,12 @@ void special(int key, int, int) {
 	case GLUT_KEY_F3:
 		exit(0);
 		break;
+	case GLUT_KEY_F4:
+		glDisable(GL_LIGHTING);
+		break;
+	case GLUT_KEY_F5:
+		glEnable(GL_LIGHTING);
+		break;
 	}
 	glutPostRedisplay();
 }
@@ -142,36 +151,122 @@ void reshape(GLint w, GLint h) {
 	gluPerspective(40.0, GLfloat(w) / GLfloat(h), 1.0, 150.0);
 }
 
+
+static bool show_demo_window = true;
+static bool show_another_window = false;
+static ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+void my_display_code()
+{
+	// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
+	if (show_demo_window)
+		ImGui::ShowDemoWindow(&show_demo_window);
+
+	// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
+	{
+		static float f = 0.0f;
+		static int counter = 0;
+
+		ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+
+		ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
+		ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
+		ImGui::Checkbox("Another Window", &show_another_window);
+
+		ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f    
+		ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+
+		if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+			counter++;
+		ImGui::SameLine();
+		ImGui::Text("counter = %d", counter);
+
+		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		ImGui::End();
+	}
+
+	// 3. Show another simple window.
+	if (show_another_window)
+	{
+		ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+		ImGui::Text("Hello from another window!");
+		if (ImGui::Button("Close Me"))
+			show_another_window = false;
+		ImGui::End();
+	}
+}
+
 void display() {
+	ImGui_ImplOpenGL2_NewFrame();
+	ImGui_ImplFreeGLUT_NewFrame();
+
+	my_display_code();
+
+	// Rendering
+	ImGui::Render();
+	ImGuiIO& io = ImGui::GetIO();
+
+	glViewport(0, 0, (GLsizei)io.DisplaySize.x, (GLsizei)io.DisplaySize.y);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(40.0, io.DisplaySize.x / io.DisplaySize.y, 1.0, 150.0);
+
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	gluLookAt(gCamera.x, gCamera.y, gCamera.z, 0, 0, 0, 0, 1, 0);
 	
+	gluLookAt(gCamera.x, gCamera.y, gCamera.z, 0, 0, 0, 0, 1, 0);
+
 	gLamp.draw();
 	gDog.draw();
 	gFloor.draw();
 	gTable.draw();
 
+	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+
 	glFlush();
 	glutSwapBuffers();
+	glutPostRedisplay();
 }
 
 int main(int argc, char** argv) {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
 	glutInitWindowPosition(80, 80);
 	glutInitWindowSize(800, 600);
 	glutCreateWindow("CG Project");
 	glutDisplayFunc(display);
-	glutReshapeFunc(reshape);
+	//glutReshapeFunc(reshape);
+
+	// Setup ImGui binding
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
+
+	ImGui_ImplFreeGLUT_Init();
+	ImGui_ImplFreeGLUT_InstallFuncs();
+	ImGui_ImplOpenGL2_Init();
+
+
 	glutSpecialFunc(special);
-	glEnable(GL_LIGHTING);
+	//glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
 
 	gLamp.init();
 
+	
+	// Setup style
+	ImGui::StyleColorsDark();
+
 	glutMainLoop();
+
+	// Cleanup
+	ImGui_ImplOpenGL2_Shutdown();
+	ImGui_ImplFreeGLUT_Shutdown();
+	ImGui::DestroyContext();
+
 	return 0;
 }
