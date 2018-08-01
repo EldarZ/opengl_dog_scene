@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "computer_graphics_project", "ProjectCG\ProjectCG.vcxproj", "{52D912D1-4164-46B6-8A5B-17F7CA4C89CF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "robot_arm", "example1\example1.vcxproj", "{AFE147BC-F67D-4960-90A5-205A6F0F7DF2}"
@@ -12,6 +14,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boat_in_the_ocean", "boat_in_the_ocean\boat_in_the_ocean.vcxproj", "{B01B4B81-E85B-4EF6-A760-B8D87141E776}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lighting", "lighting\lighting.vcxproj", "{A2177D83-061C-4E02-B5A2-335BD0726173}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imgui_test", "imgui_test\imgui_test.vcxproj", "{88113BA7-2611-47ED-863D-17B32293F87B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,8 +115,27 @@ Global
 		{A2177D83-061C-4E02-B5A2-335BD0726173}.Release|x64.ActiveCfg = Release|Win32
 		{A2177D83-061C-4E02-B5A2-335BD0726173}.Release|x86.ActiveCfg = Release|Win32
 		{A2177D83-061C-4E02-B5A2-335BD0726173}.Release|x86.Build.0 = Release|Win32
+		{88113BA7-2611-47ED-863D-17B32293F87B}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{88113BA7-2611-47ED-863D-17B32293F87B}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{88113BA7-2611-47ED-863D-17B32293F87B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{88113BA7-2611-47ED-863D-17B32293F87B}.Debug|Win32.Build.0 = Debug|Win32
+		{88113BA7-2611-47ED-863D-17B32293F87B}.Debug|x64.ActiveCfg = Debug|x64
+		{88113BA7-2611-47ED-863D-17B32293F87B}.Debug|x64.Build.0 = Debug|x64
+		{88113BA7-2611-47ED-863D-17B32293F87B}.Debug|x86.ActiveCfg = Debug|Win32
+		{88113BA7-2611-47ED-863D-17B32293F87B}.Debug|x86.Build.0 = Debug|Win32
+		{88113BA7-2611-47ED-863D-17B32293F87B}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{88113BA7-2611-47ED-863D-17B32293F87B}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{88113BA7-2611-47ED-863D-17B32293F87B}.Release|Win32.ActiveCfg = Release|Win32
+		{88113BA7-2611-47ED-863D-17B32293F87B}.Release|Win32.Build.0 = Release|Win32
+		{88113BA7-2611-47ED-863D-17B32293F87B}.Release|x64.ActiveCfg = Release|x64
+		{88113BA7-2611-47ED-863D-17B32293F87B}.Release|x64.Build.0 = Release|x64
+		{88113BA7-2611-47ED-863D-17B32293F87B}.Release|x86.ActiveCfg = Release|Win32
+		{88113BA7-2611-47ED-863D-17B32293F87B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E16CD68F-5555-4B41-9FC0-3E7762057FFC}
 	EndGlobalSection
 EndGlobal
