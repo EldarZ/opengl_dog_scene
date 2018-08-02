@@ -33,32 +33,20 @@ public:
 	}
 };
 
-class Camera
-{
-public:
-	Camera() :x(0), y(5), z(10), r(10), alpha(0) {};
-	double x,y,z;
-	double r;
-	double alpha;
-};
-
-Camera gCamera;
-
-
 void special(int key, int, int) {
 	switch (key) {
 	case GLUT_KEY_LEFT: 
-		gCamera.alpha -= 0.1; 
-		gCamera.x = gCamera.r * sin(gCamera.alpha); 
-		gCamera.z = gCamera.r * cos(gCamera.alpha);
+		gContext.camera.alpha -= 0.1; 
+		gContext.camera.x = gContext.camera.r * sin(gContext.camera.alpha);
+		gContext.camera.z = gContext.camera.r * cos(gContext.camera.alpha);
 		break;
 	case GLUT_KEY_RIGHT: 
-		gCamera.alpha += 0.1; 
-		gCamera.x = gCamera.r * sin(gCamera.alpha);
-		gCamera.z = gCamera.r * cos(gCamera.alpha);
+		gContext.camera.alpha += 0.1; 
+		gContext.camera.x = gContext.camera.r * sin(gContext.camera.alpha);
+		gContext.camera.z = gContext.camera.r * cos(gContext.camera.alpha);
 		break;
-	case GLUT_KEY_UP: gCamera.y += 1; break;
-	case GLUT_KEY_DOWN: gCamera.y -= 1; break;
+	case GLUT_KEY_UP: gContext.camera.y += 1; break;
+	case GLUT_KEY_DOWN: gContext.camera.y -= 1; break;
 	case GLUT_KEY_F1:
 		gContext.light._temp += 0.3f;
 		break;
@@ -68,59 +56,28 @@ void special(int key, int, int) {
 	case GLUT_KEY_F3:
 		exit(0);
 		break;
-	case GLUT_KEY_F4:
-		glDisable(GL_LIGHTING);
-		break;
-	case GLUT_KEY_F5:
-		glEnable(GL_LIGHTING);
-		break;
 	}
 	glutPostRedisplay();
 }
 
-// On reshape, constructs a camera that perfectly fits the window.
-void reshape(GLint w, GLint h) {
-	glViewport(0, 0, w, h);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(40.0, GLfloat(w) / GLfloat(h), 1.0, 150.0);
-}
-
-
-static bool show_demo_window = true;
-static bool show_another_window = false;
-static ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
-void my_display_code()
+void interaction()
 {
-	// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
-	{
-		static float f = 0.0f;
-		static int counter = 0;
+	ImGui::Begin("Scene control");
+	ImGui::SliderFloat("lights height", &gContext.light._temp, -5.0f, 10.0f);  
+	ImGui::SliderFloat("head horizontal", &gContext.dog.headSideRotation, -50.0f, 50.0f);
+	ImGui::SliderFloat("head vertical", &gContext.dog.headVerticalRotation, -50.0f, 50.0f);
+	ImGui::SliderFloat("tail horizontal", &gContext.dog.tailSideRotation, -50.0f, 50.0f);
+	ImGui::SliderFloat("tail vertical", &gContext.dog.tailVerticalRotation, -50.0f, 50.0f);
 
-		ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-
-		ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-		ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-		ImGui::Checkbox("Another Window", &show_another_window);
-
-		ImGui::SliderFloat("float", &gContext.light._temp, -5.0f, 10.0f);            // Edit 1 float using a slider from 0.0f to 1.0f    
-		ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-		if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-			counter++;
-		ImGui::SameLine();
-		ImGui::Text("counter = %d", counter);
-		ImGui::End();
-	}
+	ImGui::End();
 }
 
 void display() {
 	
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplFreeGLUT_NewFrame();
-	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-	my_display_code();
+	
+	interaction();
 
 	// Rendering
 	ImGui::Render();
@@ -129,22 +86,20 @@ void display() {
 
 	glViewport(0, 0, (GLsizei)io.DisplaySize.x, (GLsizei)io.DisplaySize.y);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(40.0, io.DisplaySize.x / io.DisplaySize.y, 1.0, 150.0);
-
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	
+	gluLookAt(gContext.camera.x, gContext.camera.y, gContext.camera.z, 0, 0, 0, 0, 1, 0);
 
-	
-	gluLookAt(gCamera.x, gCamera.y, gCamera.z, 0, 0, 0, 0, 1, 0);
-	
 	gContext.light.draw();
 	gContext.dog.draw();
 	gContext.floor.draw();
-	
 	gContext.table.draw();
+	gContext.teapot.draw();
+
 	glDisable(GL_LIGHTING);
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 	glEnable(GL_LIGHTING);
@@ -162,12 +117,10 @@ int main(int argc, char** argv) {
 	glutInitWindowSize(800, 600);
 	glutCreateWindow("CG Project");
 	glutDisplayFunc(display);
-	//glutReshapeFunc(reshape);
 
 	// Setup ImGui binding
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
 
 	ImGui_ImplFreeGLUT_Init();
 	ImGui_ImplFreeGLUT_InstallFuncs();
@@ -181,7 +134,7 @@ int main(int argc, char** argv) {
 	gContext.light.init();
 	
 	// Setup style
-	ImGui::StyleColorsDark();
+	ImGui::StyleColorsClassic();
 
 	glutMainLoop();
 

@@ -52,6 +52,9 @@
     <ClInclude Include="imgui\imconfig.h">
       <Filter>imgui</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Spotlight.h" />
+    <ClInclude Include="Teapot.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">

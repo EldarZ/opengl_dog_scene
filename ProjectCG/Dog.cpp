@@ -2,26 +2,22 @@
 #include <GL\freeglut.h>
 
 
-Dog::Dog()
-{
-}
-
 void Dog::draw() {
 	glPushMatrix();
 	GLfloat color[3] = { 0.92, 0.814, 0.382 };
 	glColor3fv(color);
 
-	GLfloat dog_ambient[] = { 0.001f, 0.001f, 0.001f },
-		dog_diffuse[] = { 0.0001f, 0.0001f, 0.0001f },
+	GLfloat dog_ambient[] = { 0.01f, 0.01f, 0.01f },
+		dog_diffuse[] = { 0.1f, 0.1f, 0.1f },
 		dog_specular[] = { 0.1f, 0.1f, 0.1f },
-		dog_shininess = -1.0f;
+		dog_shininess = 0.3f;
 
 	glMaterialfv(GL_FRONT, GL_AMBIENT, dog_ambient);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, dog_diffuse);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, dog_specular);
 	glMaterialf(GL_FRONT, GL_SHININESS, dog_shininess);
 	glMaterialf(GL_FRONT, GL_EMISSION, 0);
-	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
+	glMaterialfv(GL_FRONT, GL_AMBIENT, color);
 
 	//scale to model with higher values
 	glScalef(0.3, 0.3, 0.3);
@@ -62,6 +58,8 @@ void Dog::draw() {
 	glPushMatrix();
 	glTranslated(0, 0.5, -3.8);
 	glRotatef(-30, 1, 0, 0);
+	glRotatef(tailVerticalRotation, 1, 0, 0);
+	glRotatef(tailSideRotation, 0, 1, 0);
 	glScalef(0.5, 0.5, 1.8);
 
 	glutSolidSphere(1, 30, 30);
@@ -69,7 +67,8 @@ void Dog::draw() {
 
 	//head rotation
 	glPushMatrix();
-	glRotatef(10, 1, 0, 0);
+	glRotatef(headVerticalRotation, 1, 0, 0);
+	glRotatef(headSideRotation, 0, 1, 0);
 
 	//head
 	glPushMatrix();
@@ -126,9 +125,4 @@ void Dog::draw() {
 	glPopMatrix();
 
 	glPopMatrix();
-}
-
-
-Dog::~Dog()
-{
 }
