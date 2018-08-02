@@ -60,7 +60,7 @@ void glut_display_func()
     // Start the ImGui frame
     ImGui_ImplOpenGL2_NewFrame();
     ImGui_ImplFreeGLUT_NewFrame();
-
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
     my_display_code();
 
     // Rendering
@@ -95,6 +95,7 @@ int main(int argc, char** argv)
     // otherwise it is possible to install our own functions and call the imgui_impl_freeglut.h functions ourselves.
     glutDisplayFunc(glut_display_func);
 
+	glEnable(GL_LIGHTING);
     // Setup ImGui binding
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;

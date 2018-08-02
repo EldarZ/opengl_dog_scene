@@ -4,14 +4,11 @@
 #include "imgui/imgui_impl_freeglut.h"
 #include "imgui/imgui_impl_opengl2.h"
 #include <GL\freeglut.h>
-
-#include "Dog.h"
-#include "Floor.h"
-#include "Light.h"
+#include "Context.h"
 
 using namespace std;
 
-GLfloat temp = 3.0f;
+Context gContext;
 
 class Vector
 {
@@ -46,69 +43,7 @@ public:
 };
 
 Camera gCamera;
-Floor gFloor;
-Dog gDog;
-Light gLamp(temp);
 
-class Table{
-public:
-	void draw() {
-		glPushMatrix();
-		GLfloat color[3] = { 0.651, 0.502, 0.392 };
-		glColor3fv(color);
-
-		GLfloat table_ambient[] = { 0.001f, 0.001f, 0.001f },
-			table_diffuse[] = { 0.0001f, 0.0001f, 0.0001f },
-			table_specular[] = { 0.1f, 0.1f, 0.1f },
-			table_shininess = 1.0f;
-
-		glMaterialfv(GL_FRONT, GL_AMBIENT, table_ambient);
-		glMaterialfv(GL_FRONT, GL_DIFFUSE, table_diffuse);
-		glMaterialfv(GL_FRONT, GL_SPECULAR, table_specular);
-		glMaterialf(GL_FRONT, GL_SHININESS, table_shininess);
-		glMaterialf(GL_FRONT, GL_EMISSION, 0);
-		glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
-
-		//scale to model with higher values
-		glScalef(0.3, 0.3, 0.3);
-		glTranslated(-7, 3.5, -7);
-
-		glPushMatrix();
-		glScalef(7, 0.5, 7);
-		glutSolidCube(1);
-		glPopMatrix();
-
-		//torso
-		glPushMatrix();
-		glTranslated(-2.5, -1.75, -2);
-		glScalef(1, 3.5, 1);
-		glutSolidCube(1);
-		glPopMatrix();
-
-		//legs
-		glPushMatrix();
-		glTranslated(2.5, -1.75, -2);
-		glScalef(1, 3.5, 1);
-		glutSolidCube(1);
-		glPopMatrix();
-
-		glPushMatrix();
-		glTranslated(-2.5, -1.75, 2);
-		glScalef(1, 3.5, 1);
-		glutSolidCube(1);
-		glPopMatrix();
-
-		glPushMatrix();
-		glTranslated(2.5, -1.75, 2);
-		glScalef(1, 3.5, 1);
-		glutSolidCube(1);
-		glPopMatrix();
-
-		glPopMatrix();
-	}
-};
-
-Table gTable;
 
 void special(int key, int, int) {
 	switch (key) {
@@ -125,10 +60,10 @@ void special(int key, int, int) {
 	case GLUT_KEY_UP: gCamera.y += 1; break;
 	case GLUT_KEY_DOWN: gCamera.y -= 1; break;
 	case GLUT_KEY_F1:
-		temp += 0.3f;
+		gContext.light._temp += 0.3f;
 		break;
 	case GLUT_KEY_F2:
-		temp -= 0.3f;
+		gContext.light._temp -= 0.3f;
 		break;
 	case GLUT_KEY_F3:
 		exit(0);
@@ -158,10 +93,6 @@ static ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
 void my_display_code()
 {
-	// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-	if (show_demo_window)
-		ImGui::ShowDemoWindow(&show_demo_window);
-
 	// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
 	{
 		static float f = 0.0f;
@@ -173,37 +104,27 @@ void my_display_code()
 		ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
 		ImGui::Checkbox("Another Window", &show_another_window);
 
-		ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f    
+		ImGui::SliderFloat("float", &gContext.light._temp, -5.0f, 10.0f);            // Edit 1 float using a slider from 0.0f to 1.0f    
 		ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
 
 		if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
 			counter++;
 		ImGui::SameLine();
 		ImGui::Text("counter = %d", counter);
-
-		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-		ImGui::End();
-	}
-
-	// 3. Show another simple window.
-	if (show_another_window)
-	{
-		ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-		ImGui::Text("Hello from another window!");
-		if (ImGui::Button("Close Me"))
-			show_another_window = false;
 		ImGui::End();
 	}
 }
 
 void display() {
+	
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplFreeGLUT_NewFrame();
-
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	my_display_code();
 
 	// Rendering
 	ImGui::Render();
+	
 	ImGuiIO& io = ImGui::GetIO();
 
 	glViewport(0, 0, (GLsizei)io.DisplaySize.x, (GLsizei)io.DisplaySize.y);
@@ -218,13 +139,15 @@ void display() {
 
 	
 	gluLookAt(gCamera.x, gCamera.y, gCamera.z, 0, 0, 0, 0, 1, 0);
-
-	gLamp.draw();
-	gDog.draw();
-	gFloor.draw();
-	gTable.draw();
-
+	
+	gContext.light.draw();
+	gContext.dog.draw();
+	gContext.floor.draw();
+	
+	gContext.table.draw();
+	glDisable(GL_LIGHTING);
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+	glEnable(GL_LIGHTING);
 
 	glFlush();
 	glutSwapBuffers();
@@ -252,11 +175,10 @@ int main(int argc, char** argv) {
 
 
 	glutSpecialFunc(special);
-	//glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
 
-	gLamp.init();
-
+	gContext.light.init();
 	
 	// Setup style
 	ImGui::StyleColorsDark();
