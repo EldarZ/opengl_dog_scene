@@ -10,11 +10,11 @@ void Floor::draw()
 {
 	glPushMatrix();
 	glBegin(GL_QUADS);
-
+	glNormal3d(0, 1, 0);
 	GLfloat floor_ambient[] = { 0.5f, 0.5f, 0.5f },
-		floor_diffuse[] = { 0.5f, 0.5f, 0.5f },
-		floor_specular[] = { 0.4f, 0.4f, 0.4f },
-		floor_shininess = .78125f;
+		floor_diffuse[] = { 0.9f, 0.9f, 0.9f },
+		floor_specular[] = { 1.0f, 1.0f, 1.0f },
+		floor_shininess = 1.0f;
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, floor_ambient);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, floor_diffuse);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, floor_specular);

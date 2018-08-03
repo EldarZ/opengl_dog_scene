@@ -15,7 +15,7 @@ void Table::draw()
 	GLfloat table_ambient[] = { 0.001f, 0.001f, 0.001f },
 		table_diffuse[] = { 0.0001f, 0.0001f, 0.0001f },
 		table_specular[] = { 0.1f, 0.1f, 0.1f },
-		table_shininess = 1.0f;
+		table_shininess = 0.3f;
 
 	glMaterialfv(GL_FRONT, GL_AMBIENT, table_ambient);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, table_diffuse);
@@ -26,7 +26,6 @@ void Table::draw()
 
 	//scale to model with higher values
 	glScalef(0.3, 0.3, 0.3);
-	glTranslated(-7, 3.5, -7);
 
 	glPushMatrix();
 	glScalef(7, 0.5, 7);

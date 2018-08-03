@@ -151,6 +151,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Context.h" />
+    <ClInclude Include="Snowman.h" />
     <ClInclude Include="Dog.h" />
     <ClInclude Include="Floor.h" />
     <ClInclude Include="imgui\imconfig.h" />

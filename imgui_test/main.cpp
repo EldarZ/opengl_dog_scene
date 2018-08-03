@@ -95,7 +95,7 @@ int main(int argc, char** argv)
     // otherwise it is possible to install our own functions and call the imgui_impl_freeglut.h functions ourselves.
     glutDisplayFunc(glut_display_func);
 
-	glEnable(GL_LIGHTING);
+	//glEnable(GL_LIGHTING);
     // Setup ImGui binding
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;

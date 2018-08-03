@@ -5,10 +5,13 @@
 #include "imgui/imgui_impl_opengl2.h"
 #include <GL\freeglut.h>
 #include "Context.h"
+#include <functional>
 
 using namespace std;
 
 Context gContext;
+
+std::function<void()> dogMove;
 
 class Vector
 {
@@ -36,25 +39,16 @@ public:
 void special(int key, int, int) {
 	switch (key) {
 	case GLUT_KEY_LEFT: 
-		gContext.camera.alpha -= 0.1; 
-		gContext.camera.x = gContext.camera.r * sin(gContext.camera.alpha);
-		gContext.camera.z = gContext.camera.r * cos(gContext.camera.alpha);
+		dogMove = []() { glRotatef(10, 0, 1, 0); };
 		break;
 	case GLUT_KEY_RIGHT: 
-		gContext.camera.alpha += 0.1; 
-		gContext.camera.x = gContext.camera.r * sin(gContext.camera.alpha);
-		gContext.camera.z = gContext.camera.r * cos(gContext.camera.alpha);
+		dogMove = []() { glRotatef(-10, 0, 1, 0); };
 		break;
-	case GLUT_KEY_UP: gContext.camera.y += 1; break;
-	case GLUT_KEY_DOWN: gContext.camera.y -= 1; break;
-	case GLUT_KEY_F1:
-		gContext.light._temp += 0.3f;
+	case GLUT_KEY_UP: 
+		dogMove = []() { glTranslated(0, 0, 0.3); };
 		break;
-	case GLUT_KEY_F2:
-		gContext.light._temp -= 0.3f;
-		break;
-	case GLUT_KEY_F3:
-		exit(0);
+	case GLUT_KEY_DOWN: 
+		dogMove = []() { glTranslated(0, 0, -0.3); };
 		break;
 	}
 	glutPostRedisplay();
@@ -62,26 +56,68 @@ void special(int key, int, int) {
 
 void interaction()
 {
-	ImGui::Begin("Scene control");
-	ImGui::SliderFloat("lights height", &gContext.light._temp, -5.0f, 10.0f);  
-	ImGui::SliderFloat("head horizontal", &gContext.dog.headSideRotation, -50.0f, 50.0f);
-	ImGui::SliderFloat("head vertical", &gContext.dog.headVerticalRotation, -50.0f, 50.0f);
-	ImGui::SliderFloat("tail horizontal", &gContext.dog.tailSideRotation, -50.0f, 50.0f);
-	ImGui::SliderFloat("tail vertical", &gContext.dog.tailVerticalRotation, -50.0f, 50.0f);
+	ImGuiWindowFlags window_flags = 0;
+	if (ImGui::Begin("Scene control", false, window_flags))
+	{
+		static int e = 0;
+		ImGui::RadioButton("external view", &e, 0); ImGui::SameLine();
+		ImGui::RadioButton("doggy view", &e, 1);
 
+		if (ImGui::CollapsingHeader("Dog"))
+		{
+			ImGui::SliderFloat("head horizontal", &gContext.dog.headSideRotation, -30.0f, 30.0f);
+			ImGui::SliderFloat("head vertical", &gContext.dog.headVerticalRotation, -5.0f, 50.0f);
+			ImGui::SliderFloat("tail horizontal", &gContext.dog.tailSideRotation, -25.0f, 25.0f);
+			ImGui::SliderFloat("tail vertical", &gContext.dog.tailVerticalRotation, -14.0f, 50.0f);
+		}
+		if (ImGui::CollapsingHeader("Camera"))
+		{
+			ImGui::SliderFloat("camera source x", &gContext.camera.position[0], -10.0f, 10.0f);
+			ImGui::SliderFloat("camera source y", &gContext.camera.position[1], -10.0f, 10.0f);
+			ImGui::SliderFloat("camera source z", &gContext.camera.position[2], -10.0f, 10.0f);
+			ImGui::SliderFloat("camera target x", &gContext.camera.target[0], -10.0f, 10.0f);
+			ImGui::SliderFloat("camera target y", &gContext.camera.target[1], -10.0f, 10.0f);
+			ImGui::SliderFloat("camera target z", &gContext.camera.target[2], -10.0f, 10.0f);
+		}
+		static bool globalLight = true;
+		static bool spotlight = true;
+		if (ImGui::CollapsingHeader("Lights"))
+		{
+			ImGui::Checkbox("global", &globalLight); ImGui::SameLine();
+			ImGui::Checkbox("spotlight", &spotlight);
+			globalLight ? gContext.light.enable() : gContext.light.disable();
+			spotlight ? gContext.spotlight.enable() : gContext.spotlight.disable();
+			
+
+			ImGui::SliderFloat("ambient light adjust", &gContext.light.intensity, 0.0f, 1.0f);
+			ImGui::ColorEdit3("spotlight color", (float*)&gContext.spotlight.spotlightColor);
+			ImGui::SliderFloat("spotlight source x", &gContext.spotlight.position[0], -10.0f, 10.0f);
+			ImGui::SliderFloat("spotlight source y", &gContext.spotlight.position[1], -10.0f, 10.0f);
+			ImGui::SliderFloat("spotlight source z", &gContext.spotlight.position[2], -10.0f, 10.0f);
+			ImGui::SliderFloat("spotlight target x", &gContext.spotlight.direction[0], -10.0f, 10.0f);
+			ImGui::SliderFloat("spotlight target y", &gContext.spotlight.direction[1], -10.0f, 10.0f);
+			ImGui::SliderFloat("spotlight target z", &gContext.spotlight.direction[2], -10.0f, 10.0f);
+			ImGui::SliderFloat("lights cutoff", &gContext.spotlight.cutoff, 0.0f, 90.0f);
+			ImGui::SliderFloat("lights exponent", &gContext.spotlight.exponent, 0.0f, 90.0f);
+		}
+		if (ImGui::CollapsingHeader("Help"))
+		{
+			ImGui::TextWrapped("This window is being created by the ShowDemoWindow() function. Please refer to the code in imgui_demo.cpp for reference.\n\n");
+			ImGui::Text("USER GUIDE:");
+		}
+	}
 	ImGui::End();
+
 }
 
+
 void display() {
-	
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplFreeGLUT_NewFrame();
 	
 	interaction();
 
-	// Rendering
-	ImGui::Render();
-	
+	ImGui::Render();	
 	ImGuiIO& io = ImGui::GetIO();
 
 	glViewport(0, 0, (GLsizei)io.DisplaySize.x, (GLsizei)io.DisplaySize.y);
@@ -92,13 +128,56 @@ void display() {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	
-	gluLookAt(gContext.camera.x, gContext.camera.y, gContext.camera.z, 0, 0, 0, 0, 1, 0);
+	//glPushMatrix();
+	//glTranslated(0,0, 10);
+	gluLookAt(gContext.camera.position[0], gContext.camera.position[1], gContext.camera.position[2], 
+			  gContext.camera.target[0], gContext.camera.target[1], gContext.camera.target[2], 0, 1, 0);
 
-	gContext.light.draw();
-	gContext.dog.draw();
+	//glPopMatrix();
+
 	gContext.floor.draw();
+
+	glPushMatrix();
+	glTranslatef(gContext.light.position[0], gContext.light.position[1], gContext.light.position[2]);
+	gContext.light.draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(gContext.spotlight.position[0], gContext.spotlight.position[1], gContext.spotlight.position[2]);
+	gContext.spotlight.draw();
+	glPopMatrix();
+
+	if (dogMove) {
+		//load the dog coord system
+		GLfloat viewModelMatrix[16];
+		glGetFloatv(GL_MODELVIEW_MATRIX, viewModelMatrix);
+		glLoadMatrixf(gContext.dog.local);
+		dogMove();
+		dogMove = nullptr;
+		glGetFloatv(GL_MODELVIEW_MATRIX, gContext.dog.local);
+		glLoadMatrixf(viewModelMatrix);
+	}
+
+	glPushMatrix();
+	glMultMatrixf(gContext.dog.local);
+	gContext.dog.draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslated(-3, 1.05, -3);
 	gContext.table.draw();
+	glPopMatrix();
+	
+	glPushMatrix();
+	glTranslated(-2.2, 1.35, -3);
 	gContext.teapot.draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-3.0f, 0, 1);
+	glRotatef(90, 0, 1, 0);
+	gContext.snowman.draw();
+	glPopMatrix();
 
 	glDisable(GL_LIGHTING);
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
@@ -126,12 +205,16 @@ int main(int argc, char** argv) {
 	ImGui_ImplFreeGLUT_InstallFuncs();
 	ImGui_ImplOpenGL2_Init();
 
-
 	glutSpecialFunc(special);
+	glShadeModel(GL_SMOOTH);
 	glEnable(GL_LIGHTING);
+	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_NORMALIZE);
 
-	gContext.light.init();
+	gContext.light.enable();
+	gContext.spotlight.enable();
+	gContext.dog.init();
 	
 	// Setup style
 	ImGui::StyleColorsClassic();

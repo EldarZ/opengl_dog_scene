@@ -4,38 +4,33 @@
 class Light
 {
 public:
-	GLfloat _temp;
-	Light() : _temp(3.0f){};
+	GLfloat position[4] = { 0.0f, 5.0f, 0.0f , 0.0f };
+	GLfloat intensity = 0.3f;
+	Light() {};
 
-	void init()
+	void enable()
 	{
 		glEnable(GL_LIGHT0);
 	}
 
 	void draw()
 	{
-		
-
 		glPushMatrix();
+		GLfloat lightColor[] = { intensity , intensity , intensity };
 
-		GLfloat ambient[3] = { 0.1f, 0.1f, 0.1f };
-		GLfloat color[4] = { 0.9f, 0.9f, 0.9f, 0.9f };
-		GLfloat position[4] = { -3.0, _temp,3.0 , 0.0 };
-
+		glLightfv(GL_LIGHT0, GL_AMBIENT, lightColor);
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor);
+		glLightfv(GL_LIGHT0, GL_SPECULAR, lightColor);
 		glLightfv(GL_LIGHT0, GL_POSITION, position);
-
-		glLightfv(GL_LIGHT0, GL_SPECULAR, color);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, color);
-		glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
-
-		glColor3fv(color);
-		GLfloat ambient1[] = { 10.0, 10.0, 10.0, 1.0 };
-		glMaterialfv(GL_FRONT, GL_AMBIENT, ambient1);
-		glTranslatef(position[0], position[1], position[2]);
-		glutSolidSphere(0.2, 100, 100);
 
 		glPopMatrix();
 	}
+
+	void disable()
+	{
+		glDisable(GL_LIGHT0);
+	}
+
 
 	~Light() {};
 };

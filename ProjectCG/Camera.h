@@ -2,10 +2,10 @@
 class Camera
 {
 public:
-	double x, y, z;
-	double r;
-	double alpha;
-	Camera() :x(0), y(5), z(10), r(10), alpha(0) {};
+	GLfloat position[3] = { -4.0f, 5.0f, 10.0f };
+	GLfloat target[3] = { 0.0f, 0.0f, 0.0f };
+	
+	Camera() {};
 	~Camera() {}
 };
 

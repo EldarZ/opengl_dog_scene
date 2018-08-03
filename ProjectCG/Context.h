@@ -5,6 +5,7 @@
 #include "Spotlight.h"
 #include "Table.h"
 #include "Teapot.h"
+#include "Snowman.h"
 #include "Camera.h"
 
 class Context {
@@ -16,4 +17,5 @@ public:
 	Light light;
 	Spotlight spotlight;
 	Teapot teapot;
+	Snowman snowman;
 };

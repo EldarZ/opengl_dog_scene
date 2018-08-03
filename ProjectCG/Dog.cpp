@@ -1,8 +1,9 @@
 #include "Dog.h"
 #include <GL\freeglut.h>
 
-
 void Dog::draw() {
+	updateConstantMovement();
+
 	glPushMatrix();
 	GLfloat color[3] = { 0.92, 0.814, 0.382 };
 	glColor3fv(color);
@@ -21,7 +22,7 @@ void Dog::draw() {
 
 	//scale to model with higher values
 	glScalef(0.3, 0.3, 0.3);
-	glTranslated(1, 3.5, 0);
+	glTranslated(0, 3.5, 0);
 
 	//torso
 	glPushMatrix();
@@ -56,10 +57,11 @@ void Dog::draw() {
 
 	//tail
 	glPushMatrix();
-	glTranslated(0, 0.5, -3.8);
+	glTranslated(0, 0, -3.8);
 	glRotatef(-30, 1, 0, 0);
 	glRotatef(tailVerticalRotation, 1, 0, 0);
 	glRotatef(tailSideRotation, 0, 1, 0);
+	glRotatef(tailContinuesSideRotation, 0, 1, 0);
 	glScalef(0.5, 0.5, 1.8);
 
 	glutSolidSphere(1, 30, 30);
