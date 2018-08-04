@@ -5,63 +5,19 @@
 #include "imgui/imgui_impl_opengl2.h"
 #include <GL\freeglut.h>
 #include "Context.h"
-#include <functional>
 
 using namespace std;
 
 Context gContext;
-
-std::function<void()> dogMove;
-
-class Vector
-{
-public:
-	float x, y, z;
-	Vector(float X = 0.0, float Y = 0.0, float Z = 0.0)	: x(X), y(Y), z(Z){}
-	static Vector Cross(const Vector& vec1, const Vector& vec2)	{
-		Vector vecCross;
-		vecCross.x = vec1.y * vec2.z - vec1.z * vec2.y;
-		vecCross.y = vec1.z * vec2.x - vec1.x * vec2.z;
-		vecCross.z = vec1.x * vec2.y - vec1.y * vec2.x;
-		vecCross.Normalize();
-		return vecCross;
-	}
-
-	float Length() const { return sqrt(x * x + y * y + z * z); }
-	void Normalize(){ 
-		float Len = Length();
-		x /= Len;
-		y /= Len;
-		z /= Len;
-	}
-};
-
-void special(int key, int, int) {
-	switch (key) {
-	case GLUT_KEY_LEFT: 
-		dogMove = []() { glRotatef(10, 0, 1, 0); };
-		break;
-	case GLUT_KEY_RIGHT: 
-		dogMove = []() { glRotatef(-10, 0, 1, 0); };
-		break;
-	case GLUT_KEY_UP: 
-		dogMove = []() { glTranslated(0, 0, 0.3); };
-		break;
-	case GLUT_KEY_DOWN: 
-		dogMove = []() { glTranslated(0, 0, -0.3); };
-		break;
-	}
-	glutPostRedisplay();
-}
 
 void interaction()
 {
 	ImGuiWindowFlags window_flags = 0;
 	if (ImGui::Begin("Scene control", false, window_flags))
 	{
-		static int e = 0;
-		ImGui::RadioButton("external view", &e, 0); ImGui::SameLine();
-		ImGui::RadioButton("doggy view", &e, 1);
+		
+		ImGui::RadioButton("external view", &gContext.isDogView, 0); ImGui::SameLine();
+		ImGui::RadioButton("doggy view", &gContext.isDogView, 1);
 
 		if (ImGui::CollapsingHeader("Dog"))
 		{
@@ -97,19 +53,49 @@ void interaction()
 			ImGui::SliderFloat("spotlight target x", &gContext.spotlight.direction[0], -10.0f, 10.0f);
 			ImGui::SliderFloat("spotlight target y", &gContext.spotlight.direction[1], -10.0f, 10.0f);
 			ImGui::SliderFloat("spotlight target z", &gContext.spotlight.direction[2], -10.0f, 10.0f);
-			ImGui::SliderFloat("lights cutoff", &gContext.spotlight.cutoff, 0.0f, 90.0f);
-			ImGui::SliderFloat("lights exponent", &gContext.spotlight.exponent, 0.0f, 90.0f);
+			ImGui::SliderFloat("spotlight cutoff", &gContext.spotlight.cutoff, 0.0f, 90.0f);
+			ImGui::SliderFloat("spotlight exponent", &gContext.spotlight.exponent, 0.0f, 90.0f);
 		}
 		if (ImGui::CollapsingHeader("Help"))
 		{
-			ImGui::TextWrapped("This window is being created by the ShowDemoWindow() function. Please refer to the code in imgui_demo.cpp for reference.\n\n");
-			ImGui::Text("USER GUIDE:");
+			ImGui::Text("Computer graphics project 2018");
+			ImGui::Text("Viewing modes:");
+			ImGui::TextWrapped((string("There are 2 viewing modes, 'external view' and doggy view', external view is controlled by the 'Camera'")+ 
+				string(" section, the 'doggy view' is controlled explicitly by the doggy head position and rotation. ")).c_str());
+			ImGui::Text("Keyboard control:");
+			ImGui::TextWrapped((string("The keyboard arrows control the doggy position on the XZ plane - the floor plane.").c_str()));
+			ImGui::Text("Dog section:");
+			ImGui::TextWrapped((string("The controls in the Dog section are controlling the head vertical and horizontal orientaion and the")+
+				string(" tail vertical and horizontal orientation")).c_str());
+			ImGui::Text("Camera section:");
+			ImGui::TextWrapped((string("The controls in the Camera section are controling the camera position in space and the camera target")+
+				string(" point in space.")).c_str());
+			ImGui::Text("Lights section:");
+			ImGui::TextWrapped((string("The controls in the Light section are controling the Light in the scene, 'global' and 'spotlight' are 2")+
+				string(" light sources the can be turned on a off by the checkboxes. 'ambient light adjust' controls the global illumination, ")+
+				string(" The spotlight controls control the spotlight position in space and the spotlight target in space.")).c_str());
 		}
 	}
 	ImGui::End();
-
 }
 
+void special(int key, int, int) {
+	switch (key) {
+	case GLUT_KEY_LEFT:
+		gContext.dog.nextMove = []() { glRotatef(10, 0, 1, 0); };
+		break;
+	case GLUT_KEY_RIGHT:
+		gContext.dog.nextMove = []() { glRotatef(-10, 0, 1, 0); };
+		break;
+	case GLUT_KEY_UP:
+		gContext.dog.nextMove = []() { glTranslated(0, 0, 0.3); };
+		break;
+	case GLUT_KEY_DOWN:
+		gContext.dog.nextMove = []() { glTranslated(0, 0, -0.3); };
+		break;
+	}
+	glutPostRedisplay();
+}
 
 void display() {
 	ImGui_ImplOpenGL2_NewFrame();
@@ -128,12 +114,45 @@ void display() {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	
-	//glPushMatrix();
-	//glTranslated(0,0, 10);
-	gluLookAt(gContext.camera.position[0], gContext.camera.position[1], gContext.camera.position[2], 
-			  gContext.camera.target[0], gContext.camera.target[1], gContext.camera.target[2], 0, 1, 0);
+	//update dog transformation matrix
+	if (gContext.dog.nextMove) {
+		GLfloat viewModelMatrix[16];
+		glGetFloatv(GL_MODELVIEW_MATRIX, viewModelMatrix);
+		glLoadMatrixf(gContext.dog.local);
+		gContext.dog.nextMove();
+		gContext.dog.nextMove = nullptr;
+		glGetFloatv(GL_MODELVIEW_MATRIX, gContext.dog.local);
+		glLoadMatrixf(viewModelMatrix);
+	}
+	
+	if (gContext.isDogView) {
+		GLfloat viewModelMatrix[16];
+		glGetFloatv(GL_MODELVIEW_MATRIX, viewModelMatrix);
+		glLoadMatrixf(gContext.dog.local);
+		GLfloat camMatrix[16];
 
-	//glPopMatrix();
+		glRotatef(gContext.dog.headVerticalRotation, 1, 0, 0);
+		glRotatef(gContext.dog.headSideRotation, 0, 1, 0);
+
+		glTranslated(0, 0.75, 0.9);
+
+		glGetFloatv(GL_MODELVIEW_MATRIX, camMatrix);
+		glLoadMatrixf(viewModelMatrix);
+
+		GLfloat zAngle = atan2(-camMatrix[2], camMatrix[0]);
+		GLfloat yAngle = atan2(-camMatrix[9], camMatrix[5]);;
+		
+		gluLookAt(camMatrix[12], camMatrix[13], camMatrix[14],
+			sin(zAngle) + camMatrix[12],
+			-yAngle + camMatrix[13],
+			cos(zAngle) + camMatrix[14],
+			0, 1, 0);
+	}
+	else
+	{
+		gluLookAt(gContext.camera.position[0], gContext.camera.position[1], gContext.camera.position[2],
+			gContext.camera.target[0], gContext.camera.target[1], gContext.camera.target[2], 0, 1, 0);
+	}
 
 	gContext.floor.draw();
 
@@ -147,17 +166,7 @@ void display() {
 	gContext.spotlight.draw();
 	glPopMatrix();
 
-	if (dogMove) {
-		//load the dog coord system
-		GLfloat viewModelMatrix[16];
-		glGetFloatv(GL_MODELVIEW_MATRIX, viewModelMatrix);
-		glLoadMatrixf(gContext.dog.local);
-		dogMove();
-		dogMove = nullptr;
-		glGetFloatv(GL_MODELVIEW_MATRIX, gContext.dog.local);
-		glLoadMatrixf(viewModelMatrix);
-	}
-
+	
 	glPushMatrix();
 	glMultMatrixf(gContext.dog.local);
 	gContext.dog.draw();

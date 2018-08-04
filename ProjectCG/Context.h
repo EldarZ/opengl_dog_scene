@@ -10,6 +10,7 @@
 
 class Context {
 public:
+	int isDogView = 0;
 	Camera camera;
 	Floor floor;
 	Dog dog;
