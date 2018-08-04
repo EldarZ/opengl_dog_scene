@@ -19,6 +19,9 @@
       <Filter>imgui</Filter>
     </ClCompile>
     <ClCompile Include="Table.cpp" />
+    <ClCompile Include="imgui\imgui_demo.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dog.h" />

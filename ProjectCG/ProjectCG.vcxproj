@@ -172,6 +172,7 @@
   <ItemGroup>
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
     <ClCompile Include="imgui\imgui_impl_freeglut.cpp" />
     <ClCompile Include="imgui\imgui_impl_opengl2.cpp" />
