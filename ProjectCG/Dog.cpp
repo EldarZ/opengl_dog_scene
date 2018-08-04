@@ -31,24 +31,28 @@ void Dog::draw() {
 
 	//legs
 	glPushMatrix();
+	glRotatef(legsAngle, 1, 0, 0);
 	glTranslated(-1 * 0.3, -2.5 * 0.3, -2 * 0.3);
 	glScalef(0.5 * 0.3, 2 * 0.3, 0.5 * 0.3);
 	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
 
 	glPushMatrix();
+	glRotatef(-legsAngle, 1, 0, 0);
 	glTranslated(1 * 0.3, -2.5 * 0.3, -2 * 0.3);
 	glScalef(0.5 * 0.3, 2 * 0.3, 0.5 * 0.3);
 	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
 
 	glPushMatrix();
+	glRotatef(legsAngle, 1, 0, 0);
 	glTranslated(1 * 0.3, -2.5 * 0.3, 2 * 0.3);
 	glScalef(0.5 * 0.3, 2 * 0.3, 0.5 * 0.3);
 	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
 
 	glPushMatrix();
+	glRotatef(-legsAngle, 1, 0, 0);
 	glTranslated(-1 * 0.3, -2.5 * 0.3, 2 * 0.3);
 	glScalef(0.5 * 0.3, 2 * 0.3, 0.5 * 0.3);
 	glutSolidSphere(1, 30, 30);
@@ -58,9 +62,9 @@ void Dog::draw() {
 	glPushMatrix();
 	glTranslated(0, 0, -3.8 * 0.3);
 	glRotatef(-30, 1, 0, 0);
-	glRotatef(tailVerticalRotation, 1, 0, 0);
+	glRotatef(tailVerticalAngle, 1, 0, 0);
 	glRotatef(tailSideRotation, 0, 1, 0);
-	glRotatef(tailContinuesSideRotation, 0, 1, 0);
+	glRotatef(tailContinuesSideAngle, 0, 1, 0);
 	glScalef(0.5 * 0.3, 0.5 * 0.3, 1.8 * 0.3);
 
 	glutSolidSphere(1, 30, 30);

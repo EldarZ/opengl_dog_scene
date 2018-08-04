@@ -24,7 +24,7 @@ void interaction()
 			ImGui::SliderFloat("head horizontal", &gContext.dog.headSideRotation, -30.0f, 30.0f);
 			ImGui::SliderFloat("head vertical", &gContext.dog.headVerticalRotation, -5.0f, 50.0f);
 			ImGui::SliderFloat("tail horizontal", &gContext.dog.tailSideRotation, -25.0f, 25.0f);
-			ImGui::SliderFloat("tail vertical", &gContext.dog.tailVerticalRotation, -14.0f, 50.0f);
+			ImGui::SliderFloat("tail vertical", &gContext.dog.tailVerticalAngle, -14.0f, 50.0f);
 		}
 		if (ImGui::CollapsingHeader("Camera"))
 		{
@@ -43,16 +43,16 @@ void interaction()
 			ImGui::Checkbox("spotlight", &spotlight);
 			globalLight ? gContext.light.enable() : gContext.light.disable();
 			spotlight ? gContext.spotlight.enable() : gContext.spotlight.disable();
-			
+
 
 			ImGui::SliderFloat("ambient light adjust", &gContext.light.intensity, 0.0f, 1.0f);
 			ImGui::ColorEdit3("spotlight color", (float*)&gContext.spotlight.spotlightColor);
 			ImGui::SliderFloat("spotlight source x", &gContext.spotlight.position[0], -10.0f, 10.0f);
 			ImGui::SliderFloat("spotlight source y", &gContext.spotlight.position[1], -10.0f, 10.0f);
 			ImGui::SliderFloat("spotlight source z", &gContext.spotlight.position[2], -10.0f, 10.0f);
-			ImGui::SliderFloat("spotlight target x", &gContext.spotlight.direction[0], -10.0f, 10.0f);
-			ImGui::SliderFloat("spotlight target y", &gContext.spotlight.direction[1], -10.0f, 10.0f);
-			ImGui::SliderFloat("spotlight target z", &gContext.spotlight.direction[2], -10.0f, 10.0f);
+			ImGui::SliderFloat("spotlight target x", &gContext.spotlight.target[0], -10.0f, 10.0f);
+			ImGui::SliderFloat("spotlight target y", &gContext.spotlight.target[1], -10.0f, 10.0f);
+			ImGui::SliderFloat("spotlight target z", &gContext.spotlight.target[2], -10.0f, 10.0f);
 			ImGui::SliderFloat("spotlight cutoff", &gContext.spotlight.cutoff, 0.0f, 90.0f);
 			ImGui::SliderFloat("spotlight exponent", &gContext.spotlight.exponent, 0.0f, 90.0f);
 		}
@@ -116,6 +116,7 @@ void display() {
 	
 	//update dog transformation matrix
 	if (gContext.dog.nextMove) {
+		gContext.dog.isMoving = true;
 		GLfloat viewModelMatrix[16];
 		glGetFloatv(GL_MODELVIEW_MATRIX, viewModelMatrix);
 		glLoadMatrixf(gContext.dog.local);
@@ -219,6 +220,7 @@ int main(int argc, char** argv) {
 	glEnable(GL_LIGHTING);
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_NORMALIZE);
 
 	gContext.light.enable();

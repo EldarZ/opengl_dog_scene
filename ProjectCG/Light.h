@@ -6,12 +6,6 @@ class Light
 public:
 	GLfloat position[4] = { 0.0f, 5.0f, 0.0f , 0.0f };
 	GLfloat intensity = 0.3f;
-	Light() {};
-
-	void enable()
-	{
-		glEnable(GL_LIGHT0);
-	}
 
 	void draw()
 	{
@@ -31,7 +25,9 @@ public:
 		glDisable(GL_LIGHT0);
 	}
 
-
-	~Light() {};
+	void enable()
+	{
+		glEnable(GL_LIGHT0);
+	}
 };
 
