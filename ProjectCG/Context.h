@@ -9,6 +9,9 @@
 #include "Camera.h"
 #include "Art.h"
 
+/*
+The context holds all rendered objects, a single point to access the scene objects.
+*/
 class Context {
 public:
 	int isDogView = 0;

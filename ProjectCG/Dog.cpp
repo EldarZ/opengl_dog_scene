@@ -60,8 +60,8 @@ void Dog::draw() {
 	glTranslated(0, 0, -3.8 * 0.3);
 	glRotatef(-30, 1, 0, 0);
 	glRotatef(tailVerticalAngle, 1, 0, 0);
-	glRotatef(tailSideRotation, 0, 1, 0);
-	glRotatef(tailContinuesSideAngle, 0, 1, 0);
+	glRotatef(tailHorizontalAngle, 0, 1, 0);
+	glRotatef(tailWiggleAngle, 0, 1, 0);
 	glScalef(0.5 * 0.3, 0.5 * 0.3, 1.8 * 0.3);
 
 	glutSolidSphere(1, 30, 30);
@@ -69,8 +69,8 @@ void Dog::draw() {
 
 	//head rotation
 	glPushMatrix();
-	glRotatef(headVerticalRotation, 1, 0, 0);
-	glRotatef(headSideRotation, 0, 1, 0);
+	glRotatef(headVerticalAngle, 1, 0, 0);
+	glRotatef(headHorizontalAngle, 0, 1, 0);
 
 	//head
 	glPushMatrix();

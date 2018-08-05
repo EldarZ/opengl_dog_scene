@@ -1,6 +1,9 @@
 #pragma once
 #include <GL\freeglut.h>
 
+/*
+The floor 
+*/
 class Floor
 {
 private:

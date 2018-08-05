@@ -8,22 +8,23 @@
 
 using namespace std;
 
+//single point of access to all rendered objects
 Context gContext;
 
+//gui interaction handling via imgui
 void guiInteraction()
 {
 	ImGuiWindowFlags window_flags = 0;
 	if (ImGui::Begin("Computer graphics project 2018", false, window_flags))
 	{
-		
 		ImGui::RadioButton("external view", &gContext.isDogView, 0); ImGui::SameLine();
 		ImGui::RadioButton("doggy view", &gContext.isDogView, 1);
 
 		if (ImGui::CollapsingHeader("Dog"))
 		{
-			ImGui::SliderFloat("head horizontal", &gContext.dog.headSideRotation, -30.0f, 30.0f);
-			ImGui::SliderFloat("head vertical", &gContext.dog.headVerticalRotation, -5.0f, 50.0f);
-			ImGui::SliderFloat("tail horizontal", &gContext.dog.tailSideRotation, -25.0f, 25.0f);
+			ImGui::SliderFloat("head horizontal", &gContext.dog.headHorizontalAngle, -30.0f, 30.0f);
+			ImGui::SliderFloat("head vertical", &gContext.dog.headVerticalAngle, -5.0f, 50.0f);
+			ImGui::SliderFloat("tail horizontal", &gContext.dog.tailHorizontalAngle, -25.0f, 25.0f);
 			ImGui::SliderFloat("tail vertical", &gContext.dog.tailVerticalAngle, -14.0f, 50.0f);
 		}
 		if (ImGui::CollapsingHeader("Camera"))
@@ -82,6 +83,7 @@ void guiInteraction()
 	ImGui::End();
 }
 
+//keyboard events handling
 void keyboard(int key, int, int) {
 	switch (key) {
 	case GLUT_KEY_LEFT:
@@ -100,10 +102,13 @@ void keyboard(int key, int, int) {
 	glutPostRedisplay();
 }
 
+//display handling, rendering all objects
 void display() {
+	//imgui new frame
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplFreeGLUT_NewFrame();
 	
+	//update interaction
 	guiInteraction();
 
 	ImGui::Render();	
@@ -135,8 +140,8 @@ void display() {
 		glGetFloatv(GL_MODELVIEW_MATRIX, viewModelMatrix);
 		glLoadMatrixf(gContext.dog.local);
 
-		glRotatef(gContext.dog.headVerticalRotation, 1, 0, 0);
-		glRotatef(gContext.dog.headSideRotation, 0, 1, 0);
+		glRotatef(gContext.dog.headVerticalAngle, 1, 0, 0);
+		glRotatef(gContext.dog.headHorizontalAngle, 0, 1, 0);
 		glTranslated(0, 0.75, 0.9);
 
 		GLfloat cameraPoseInDogView[16];
@@ -161,7 +166,6 @@ void display() {
 
 	gContext.floor.draw();
 
-	//draw lights
 	glPushMatrix();
 	glTranslatef(gContext.light.position[0], gContext.light.position[1], gContext.light.position[2]);
 	gContext.light.draw();
@@ -194,10 +198,11 @@ void display() {
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslated(+1, 1.5,-5.0f);
+	glTranslated(1.0f, 1.5f,-5.0f);
 	gContext.art.draw();
 	glPopMatrix();
 
+	//imgui does not handle light well
 	glDisable(GL_LIGHTING);
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 	glEnable(GL_LIGHTING);

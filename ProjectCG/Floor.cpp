@@ -6,6 +6,9 @@ Floor::Floor() : startX(-5), startZ(-5), w(5), h(5)
 	color2[0] = 0.7f; color2[1] = 0.7f;	color2[2] = 0.7f;
 };
 
+/*
+renders the floor
+*/
 void Floor::draw()
 {
 	glPushMatrix();

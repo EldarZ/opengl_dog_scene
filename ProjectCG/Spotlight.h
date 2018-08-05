@@ -1,6 +1,9 @@
 #pragma once
 #include <math.h>
 
+/*
+Spotlight object handling position, target and other lighting properties.
+*/
 class Spotlight {
 public:
 	GLfloat position[4] = { 0.0f, 2.5f, 0.0f , 1.0f };

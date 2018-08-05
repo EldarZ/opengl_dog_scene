@@ -1,7 +1,9 @@
 #pragma once
 #include <GL/freeglut.h>
 
-
+/*
+Snowman object, static rendering object
+*/
 class Snowman {
 public:
 	void draw()

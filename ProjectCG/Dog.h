@@ -1,19 +1,44 @@
 #pragma once
 #include <GL\freeglut.h>
 #include <functional>
+
+/*
+The Dog object, renders the dog and exposes the dog controls to the ui.
+*/
 class Dog
 {
 public:
+	//local accumolated transformation matrix
 	GLfloat local[16];	
-	GLfloat headSideRotation = 0.0f;
-	GLfloat headVerticalRotation = 10.0f;
-	GLfloat tailSideRotation = 0.0f;
+	
+	//head horizontal controled angle
+	GLfloat headHorizontalAngle = 0.0f;
+	
+	//head vertircal controled angle
+	GLfloat headVerticalAngle = 10.0f;
+	
+	//tail horizontal controled angle
+	GLfloat tailHorizontalAngle = 0.0f;
+
+	//tail vertical angle
 	GLfloat tailVerticalAngle = -10.0f;
-	GLfloat tailContinuesSideAngle = 0.0f;
-	bool tailContinuesSideDirectionLeft = true;
+
+	//tail wiggle angle
+	GLfloat tailWiggleAngle = 0.0f;
+
+	//tail wiggle direction toggle
+	bool tailWiggleDirectionLeft = true;
+
+	//legs movement angle
 	GLfloat legsAngle = 0.0f;
-	bool legsAngleDirection = true;
+	
+	//legs movement direction toggle
+	bool legsDirectionAngle = true;
+
+	//next move function
 	std::function<void()> nextMove;
+
+	//movement indication
 	bool isMoving = false;
 
 	void init() {
@@ -29,24 +54,25 @@ public:
 	}
 	void draw();
 private:
+	//update constant animation for tail wiggle and legs movement
 	void updateConstantMovement() {
-		if (tailContinuesSideAngle > 8 || tailContinuesSideAngle < -8)
+		if (tailWiggleAngle > 8 || tailWiggleAngle < -8)
 		{
-			tailContinuesSideDirectionLeft = !tailContinuesSideDirectionLeft;
+			tailWiggleDirectionLeft = !tailWiggleDirectionLeft;
 		}
-		if (tailContinuesSideDirectionLeft)
+		if (tailWiggleDirectionLeft)
 		{
-			tailContinuesSideAngle += 1.7;
+			tailWiggleAngle += 1.7;
 		}
 		else {
-			tailContinuesSideAngle -= 1.7;
+			tailWiggleAngle -= 1.7;
 		}
 		if (isMoving) {
 			if (legsAngle > 20 || legsAngle < -20)
 			{
-				legsAngleDirection = !legsAngleDirection;
+				legsDirectionAngle = !legsDirectionAngle;
 			}
-			if (legsAngleDirection)
+			if (legsDirectionAngle)
 			{
 				legsAngle += 6.0;
 			}

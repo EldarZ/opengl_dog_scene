@@ -177,7 +177,6 @@
     <ClCompile Include="imgui\imgui_draw.cpp" />
     <ClCompile Include="imgui\imgui_impl_freeglut.cpp" />
     <ClCompile Include="imgui\imgui_impl_opengl2.cpp" />
-    <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Dog.cpp" />
     <ClCompile Include="stdafx.cpp" />

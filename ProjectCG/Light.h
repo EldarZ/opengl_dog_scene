@@ -1,6 +1,9 @@
 #pragma once
 #include <GL\freeglut.h>
 
+/*
+Light is directional global lighting object
+*/
 class Light
 {
 public:

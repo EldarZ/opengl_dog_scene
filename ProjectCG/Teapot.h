@@ -1,6 +1,9 @@
 #pragma once
 #include <GL\freeglut.h>
 
+/*
+Opengl original teapot.
+*/
 class Teapot {
 public:
 	Teapot()  {};
