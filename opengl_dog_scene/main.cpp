@@ -15,7 +15,7 @@ Context gContext;
 void guiInteraction()
 {
 	ImGuiWindowFlags window_flags = 0;
-	if (ImGui::Begin("Computer graphics project 2018", false, window_flags))
+	if (ImGui::Begin("Opengl Dog Scene", false, window_flags))
 	{
 		ImGui::RadioButton("external view", &gContext.isDogView, 0); ImGui::SameLine();
 		ImGui::RadioButton("doggy view", &gContext.isDogView, 1);

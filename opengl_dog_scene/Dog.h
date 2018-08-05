@@ -46,8 +46,8 @@ public:
 		glGetFloatv(GL_MODELVIEW_MATRIX, viewModelMatrix);
 		glLoadIdentity();
 
-		glRotatef(-90, 0, 1, 0);
-		glTranslatef(0, 3.5 * 0.3, -3);
+		glRotatef(-90.0f, 0.0f, 1.0f, 0.0f);
+		glTranslatef(0, 3.5f * 0.30f, -3.0f);
 
 		glGetFloatv(GL_MODELVIEW_MATRIX, local);
 		glLoadMatrixf(viewModelMatrix);
@@ -62,10 +62,10 @@ private:
 		}
 		if (tailWiggleDirectionLeft)
 		{
-			tailWiggleAngle += 1.7;
+			tailWiggleAngle += 1.7f;
 		}
 		else {
-			tailWiggleAngle -= 1.7;
+			tailWiggleAngle -= 1.7f;
 		}
 		if (isMoving) {
 			if (legsAngle > 20 || legsAngle < -20)

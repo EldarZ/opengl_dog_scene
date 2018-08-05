@@ -9,10 +9,10 @@ public:
 	Teapot()  {};
 	void draw() {
 		glPushMatrix();
-		GLfloat teapot_ambient[] = { 0.19225,	0.19225,	0.19225 },
-			    teapot_diffuse[] = { 0.50754,	0.50754,	0.50754 },
-			    teapot_specular[] = { 0.508273,	0.508273,	0.508273 },
-			    teapot_shininess = 0.4f * 128.0;
+		GLfloat teapot_ambient[] = { 0.19225f,	0.19225f,	0.19225f },
+			    teapot_diffuse[] = { 0.50754f,	0.50754f,	0.50754f },
+			    teapot_specular[] = { 0.508273f,	0.508273f,	0.508273f },
+			    teapot_shininess = 0.4f * 128.0f;
 
 		glMaterialfv(GL_FRONT, GL_AMBIENT,  teapot_ambient);
 		glMaterialfv(GL_FRONT, GL_DIFFUSE,  teapot_diffuse);

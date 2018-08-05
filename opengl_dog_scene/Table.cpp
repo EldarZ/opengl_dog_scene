@@ -4,7 +4,7 @@
 void Table::draw()
 {
 	glPushMatrix();
-	GLfloat color[3] = { 0.651, 0.502, 0.392 };
+	GLfloat color[3] = { 0.651f, 0.502f, 0.392f };
 	glColor3fv(color);
 
 	GLfloat table_ambient[] = { 0.001f, 0.001f, 0.001f },
@@ -20,7 +20,7 @@ void Table::draw()
 	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color); 
 
 	//scale to model with higher values
-	glScalef(0.3, 0.3, 0.3);
+	glScalef(0.3f, 0.3f, 0.3f);
 
 	//top
 	glPushMatrix();

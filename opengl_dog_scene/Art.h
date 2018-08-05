@@ -56,7 +56,11 @@ private:
 	unsigned char* readBMP(char* filename)
 	{
 		int i;
-		FILE* f = fopen(filename, "rb");
+		FILE* f = nullptr;
+		errno_t status = fopen_s(&f, filename, "rb");
+		if (status != 0) {
+			return nullptr;
+		}
 		unsigned char info[54];
 		fread(info, sizeof(unsigned char), 54, f); // read the 54-byte header
 

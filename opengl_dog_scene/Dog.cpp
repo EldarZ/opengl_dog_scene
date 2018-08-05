@@ -5,7 +5,7 @@ void Dog::draw() {
 	updateConstantMovement();
 
 	glPushMatrix();
-	GLfloat color[3] = { 0.92, 0.814, 0.382 };
+	GLfloat color[3] = { 0.92f, 0.814f, 0.382f };
 	glColor3fv(color);
 
 	GLfloat dog_ambient[] = { 0.01f, 0.01f, 0.01f },
@@ -22,7 +22,7 @@ void Dog::draw() {
 
 	//torso
 	glPushMatrix();
-	glScalef(2 * 0.3, 2 * 0.3, 4 * 0.3);
+	glScalef(2.0f * 0.3f, 2.0f * 0.3f, 4.0f * 0.3f);
 	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
 
@@ -30,39 +30,39 @@ void Dog::draw() {
 	glPushMatrix();
 	glRotatef(legsAngle, 1, 0, 0);
 	glTranslated(-1 * 0.3, -2.5 * 0.3, -2 * 0.3);
-	glScalef(0.5 * 0.3, 2 * 0.3, 0.5 * 0.3);
+	glScalef(0.5f * 0.3f, 2.0f * 0.3f, 0.5f * 0.3f);
 	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
 
 	glPushMatrix();
 	glRotatef(-legsAngle, 1, 0, 0);
-	glTranslated(1 * 0.3, -2.5 * 0.3, -2 * 0.3);
-	glScalef(0.5 * 0.3, 2 * 0.3, 0.5 * 0.3);
+	glTranslated(0.3f, -2.5f * 0.3f, -0.6);
+	glScalef(0.5f * 0.3f, 0.6f, 0.5f * 0.3f);
 	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
 
 	glPushMatrix();
 	glRotatef(legsAngle, 1, 0, 0);
-	glTranslated(1 * 0.3, -2.5 * 0.3, 2 * 0.3);
-	glScalef(0.5 * 0.3, 2 * 0.3, 0.5 * 0.3);
+	glTranslated(0.3f, -2.5f * 0.3f, 2.0 * 0.3f);
+	glScalef(0.5f * 0.3f, 2.0f * 0.3f, 0.5f * 0.3f);
 	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
 
 	glPushMatrix();
 	glRotatef(-legsAngle, 1, 0, 0);
-	glTranslated(-1 * 0.3, -2.5 * 0.3, 2 * 0.3);
-	glScalef(0.5 * 0.3, 2 * 0.3, 0.5 * 0.3);
+	glTranslated(-0.3f, -2.5f * 0.3f, 0.6);
+	glScalef(0.5f * 0.3f, 2.0f * 0.3f, 0.5f * 0.3f);
 	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
 
 	//tail
 	glPushMatrix();
-	glTranslated(0, 0, -3.8 * 0.3);
+	glTranslated(0.0f, 0.0f, -3.8f * 0.3f);
 	glRotatef(-30, 1, 0, 0);
 	glRotatef(tailVerticalAngle, 1, 0, 0);
 	glRotatef(tailHorizontalAngle, 0, 1, 0);
 	glRotatef(tailWiggleAngle, 0, 1, 0);
-	glScalef(0.5 * 0.3, 0.5 * 0.3, 1.8 * 0.3);
+	glScalef(0.5f * 0.3f, 0.5f * 0.3f, 1.8f * 0.3f);
 
 	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
@@ -74,28 +74,28 @@ void Dog::draw() {
 
 	//head
 	glPushMatrix();
-	glTranslated(0, 2.5 * 0.3, 3 * 0.3);
-	glScalef(1.5 * 0.3, 1.55 * 0.3, 1.6 * 0.3);
+	glTranslated(0.0f, 2.5f * 0.3f, 3.0f * 0.3f);
+	glScalef(1.5f * 0.3f, 1.55f * 0.3f, 1.6f * 0.3f);
 	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
 
 	//nose
 	glPushMatrix();
-	glTranslated(0, 2.2 * 0.3, 4.2 * 0.3);
-	glScalef(0.8 * 0.3, 0.5 * 0.3, 1.5 * 0.3);
+	glTranslated(0.0f, 2.2f * 0.3f, 4.2f * 0.3f);
+	glScalef(0.8f * 0.3f, 0.5f * 0.3f, 1.5f * 0.3f);
 	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
 
 	//ears
 	glPushMatrix();
-	glTranslated(-0.8 * 0.3, 3.8 * 0.3, 2.6 * 0.3);
-	glScalef(0.5 * 0.3, 1 * 0.3, 0.5 * 0.3);
+	glTranslated(-0.8f * 0.3f, 3.8f * 0.3f, 2.6f * 0.3f);
+	glScalef(0.5f * 0.3f, 0.3f, 0.5f * 0.3f);
 	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslated(0.8 * 0.3, 3.8 * 0.3, 2.6 * 0.3);
-	glScalef(0.5 * 0.3, 1 * 0.3, 0.5 * 0.3);
+	glTranslated(0.8f * 0.3f, 3.8f * 0.3f, 2.6f * 0.3f);
+	glScalef(0.5f * 0.3f, 1.0f * 0.3f, 0.5f * 0.3f);
 	glutSolidSphere(1, 30, 30);
 	glPopMatrix();
 
@@ -113,14 +113,14 @@ void Dog::draw() {
 	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, black);
 
 	glPushMatrix();
-	glTranslated(0.5 * 0.3, 3.0 * 0.3, 4.4 * 0.3);
-	glScalef(0.25 * 0.3, 0.25 * 0.3, 0.25 * 0.3);
+	glTranslated(0.5f * 0.3f, 3.0f * 0.3f, 4.4f * 0.3f);
+	glScalef(0.25f * 0.3f, 0.25f * 0.3f, 0.25f * 0.3f);
 	glutSolidCube(1);
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslated(-0.5 * 0.3, 3.0 * 0.3, 4.4  * 0.3);
-	glScalef(0.25 * 0.3, 0.25 * 0.3, 0.25 * 0.3);
+	glTranslated(-0.5f * 0.3f, 3.0f * 0.3f, 4.4f  * 0.3f);
+	glScalef(0.25f * 0.3f, 0.25f * 0.3f, 0.25f * 0.3f);
 	glutSolidCube(1);
 	glPopMatrix();
 

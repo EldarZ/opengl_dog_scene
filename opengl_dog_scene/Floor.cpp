@@ -21,7 +21,7 @@ void Floor::draw()
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, floor_ambient);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, floor_diffuse);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, floor_specular);
-	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, floor_shininess * 128.0);
+	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, floor_shininess * 128.0f);
 
 	for (int x = startX; x < w; x++) {
 		for (int z = startZ; z < h; z++) {
