@@ -7,6 +7,7 @@
 #include "Teapot.h"
 #include "Snowman.h"
 #include "Camera.h"
+#include "Art.h"
 
 class Context {
 public:
@@ -19,4 +20,5 @@ public:
 	Spotlight spotlight;
 	Teapot teapot;
 	Snowman snowman;
+	Art art;
 };

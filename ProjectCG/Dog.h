@@ -48,10 +48,10 @@ private:
 			}
 			if (legsAngleDirection)
 			{
-				legsAngle += 5.0;
+				legsAngle += 6.0;
 			}
 			else {
-				legsAngle -= 5.0;
+				legsAngle -= 6.0;
 			}
 			isMoving = false;
 		}

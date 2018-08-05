@@ -20,9 +20,6 @@ void Dog::draw() {
 	glMaterialf(GL_FRONT, GL_EMISSION, 0);
 	glMaterialfv(GL_FRONT, GL_AMBIENT, color);
 
-	//lift model by y as the origin of the object
-	//glTranslated(0, 3.5 * 0.3, 0);
-
 	//torso
 	glPushMatrix();
 	glScalef(2 * 0.3, 2 * 0.3, 4 * 0.3);

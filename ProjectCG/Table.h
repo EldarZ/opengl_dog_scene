@@ -1,14 +1,8 @@
 #pragma once
 
-
 class Table
 {
-public:
-	
-	Table();
+public:	
 	void draw();
-	~Table();
-private:
-	unsigned char * woodBmp;
 };
 

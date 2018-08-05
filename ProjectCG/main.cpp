@@ -10,10 +10,10 @@ using namespace std;
 
 Context gContext;
 
-void interaction()
+void guiInteraction()
 {
 	ImGuiWindowFlags window_flags = 0;
-	if (ImGui::Begin("Scene control", false, window_flags))
+	if (ImGui::Begin("Computer graphics project 2018", false, window_flags))
 	{
 		
 		ImGui::RadioButton("external view", &gContext.isDogView, 0); ImGui::SameLine();
@@ -58,7 +58,6 @@ void interaction()
 		}
 		if (ImGui::CollapsingHeader("Help"))
 		{
-			ImGui::Text("Computer graphics project 2018");
 			ImGui::Text("Viewing modes:");
 			ImGui::TextWrapped((string("There are 2 viewing modes, 'external view' and doggy view', external view is controlled by the 'Camera'")+ 
 				string(" section, the 'doggy view' is controlled explicitly by the doggy head position and rotation. ")).c_str());
@@ -72,8 +71,8 @@ void interaction()
 				string(" point in space.")).c_str());
 			ImGui::Text("Lights section:");
 			ImGui::TextWrapped((string("The controls in the Light section are controling the Light in the scene, 'global' and 'spotlight' are 2")+
-				string(" light sources the can be turned on a off by the checkboxes. 'ambient light adjust' controls the global illumination, ")+
-				string(" The spotlight controls control the spotlight position in space and the spotlight target in space.")).c_str());
+				string(" light sources that can be turned on a off by the checkboxes. 'ambient light adjust' controls the global illumination, ")+
+				string(" The spotlight controls the spotlight position in space and the spotlight target in space.")).c_str());
 		}
 	}
 	ImGui::End();
@@ -101,7 +100,7 @@ void display() {
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplFreeGLUT_NewFrame();
 	
-	interaction();
+	guiInteraction();
 
 	ImGui::Render();	
 	ImGuiIO& io = ImGui::GetIO();
@@ -114,7 +113,7 @@ void display() {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	
-	//update dog transformation matrix
+	//update the dog's transformation matrix
 	if (gContext.dog.nextMove) {
 		gContext.dog.isMoving = true;
 		GLfloat viewModelMatrix[16];
@@ -126,27 +125,27 @@ void display() {
 		glLoadMatrixf(viewModelMatrix);
 	}
 	
+	//change viewing mode if in Doggy view setup
 	if (gContext.isDogView) {
 		GLfloat viewModelMatrix[16];
 		glGetFloatv(GL_MODELVIEW_MATRIX, viewModelMatrix);
 		glLoadMatrixf(gContext.dog.local);
-		GLfloat camMatrix[16];
 
 		glRotatef(gContext.dog.headVerticalRotation, 1, 0, 0);
 		glRotatef(gContext.dog.headSideRotation, 0, 1, 0);
-
 		glTranslated(0, 0.75, 0.9);
 
-		glGetFloatv(GL_MODELVIEW_MATRIX, camMatrix);
+		GLfloat cameraPoseInDogView[16];
+		glGetFloatv(GL_MODELVIEW_MATRIX, cameraPoseInDogView);
 		glLoadMatrixf(viewModelMatrix);
 
-		GLfloat zAngle = atan2(-camMatrix[2], camMatrix[0]);
-		GLfloat yAngle = atan2(-camMatrix[9], camMatrix[5]);;
+		GLfloat zAngle = atan2(-cameraPoseInDogView[2], cameraPoseInDogView[0]);
+		GLfloat yAngle = atan2(-cameraPoseInDogView[9], cameraPoseInDogView[5]);;
 		
-		gluLookAt(camMatrix[12], camMatrix[13], camMatrix[14],
-			sin(zAngle) + camMatrix[12],
-			-yAngle + camMatrix[13],
-			cos(zAngle) + camMatrix[14],
+		gluLookAt(cameraPoseInDogView[12], cameraPoseInDogView[13], cameraPoseInDogView[14],
+			sin(zAngle) + cameraPoseInDogView[12],
+			-yAngle + cameraPoseInDogView[13],
+			cos(zAngle) + cameraPoseInDogView[14],
 			0, 1, 0);
 	}
 	else
@@ -157,6 +156,7 @@ void display() {
 
 	gContext.floor.draw();
 
+	//draw lights
 	glPushMatrix();
 	glTranslatef(gContext.light.position[0], gContext.light.position[1], gContext.light.position[2]);
 	gContext.light.draw();
@@ -167,7 +167,6 @@ void display() {
 	gContext.spotlight.draw();
 	glPopMatrix();
 
-	
 	glPushMatrix();
 	glMultMatrixf(gContext.dog.local);
 	gContext.dog.draw();
@@ -189,6 +188,8 @@ void display() {
 	gContext.snowman.draw();
 	glPopMatrix();
 
+	gContext.art.draw();
+
 	glDisable(GL_LIGHTING);
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 	glEnable(GL_LIGHTING);
@@ -204,7 +205,7 @@ int main(int argc, char** argv) {
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
 	glutInitWindowPosition(80, 80);
 	glutInitWindowSize(800, 600);
-	glutCreateWindow("CG Project");
+	glutCreateWindow("Computer Graphics Project");
 	glutDisplayFunc(display);
 
 	// Setup ImGui binding
@@ -226,7 +227,7 @@ int main(int argc, char** argv) {
 	gContext.light.enable();
 	gContext.spotlight.enable();
 	gContext.dog.init();
-	
+	gContext.art.init();
 	// Setup style
 	ImGui::StyleColorsClassic();
 
