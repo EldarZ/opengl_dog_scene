@@ -74,11 +74,15 @@ void guiInteraction()
 				string(" light sources that can be turned on a off by the checkboxes. 'ambient light adjust' controls the global illumination, ")+
 				string(" The spotlight controls the spotlight position in space and the spotlight target in space.")).c_str());
 		}
+		if (ImGui::Button("Quit"))
+		{
+			exit(0);
+		}
 	}
 	ImGui::End();
 }
 
-void special(int key, int, int) {
+void keyboard(int key, int, int) {
 	switch (key) {
 	case GLUT_KEY_LEFT:
 		gContext.dog.nextMove = []() { glRotatef(10, 0, 1, 0); };
@@ -150,6 +154,7 @@ void display() {
 	}
 	else
 	{
+		//view mode of camera view setup
 		gluLookAt(gContext.camera.position[0], gContext.camera.position[1], gContext.camera.position[2],
 			gContext.camera.target[0], gContext.camera.target[1], gContext.camera.target[2], 0, 1, 0);
 	}
@@ -188,7 +193,10 @@ void display() {
 	gContext.snowman.draw();
 	glPopMatrix();
 
+	glPushMatrix();
+	glTranslated(+1, 1.5,-5.0f);
 	gContext.art.draw();
+	glPopMatrix();
 
 	glDisable(GL_LIGHTING);
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
@@ -204,7 +212,7 @@ int main(int argc, char** argv) {
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
 	glutInitWindowPosition(80, 80);
-	glutInitWindowSize(800, 600);
+	glutInitWindowSize(1200, 600);
 	glutCreateWindow("Computer Graphics Project");
 	glutDisplayFunc(display);
 
@@ -216,18 +224,18 @@ int main(int argc, char** argv) {
 	ImGui_ImplFreeGLUT_InstallFuncs();
 	ImGui_ImplOpenGL2_Init();
 
-	glutSpecialFunc(special);
+	glutSpecialFunc(keyboard);
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_LIGHTING);
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_NORMALIZE);
 
 	gContext.light.enable();
 	gContext.spotlight.enable();
 	gContext.dog.init();
 	gContext.art.init();
+
 	// Setup style
 	ImGui::StyleColorsClassic();
 

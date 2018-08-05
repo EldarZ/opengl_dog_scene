@@ -3,7 +3,7 @@
 
 class Spotlight {
 public:
-	GLfloat position[4] = { 0.0f, 2.2f, 0.0f , 1.0f };
+	GLfloat position[4] = { 0.0f, 2.5f, 0.0f , 1.0f };
 	GLfloat target[3] = { 0.1f, 0.0f, 0.0f };
 	GLfloat spotlightColor[3] = { 1.0f, 1.0f, 1.0f };
 	GLfloat cutoff = 30.0f;

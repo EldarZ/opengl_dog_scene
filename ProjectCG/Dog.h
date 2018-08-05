@@ -30,16 +30,16 @@ public:
 	void draw();
 private:
 	void updateConstantMovement() {
-		if (tailContinuesSideAngle > 7 || tailContinuesSideAngle < -7)
+		if (tailContinuesSideAngle > 8 || tailContinuesSideAngle < -8)
 		{
 			tailContinuesSideDirectionLeft = !tailContinuesSideDirectionLeft;
 		}
 		if (tailContinuesSideDirectionLeft)
 		{
-			tailContinuesSideAngle += 2.0;
+			tailContinuesSideAngle += 1.7;
 		}
 		else {
-			tailContinuesSideAngle -= 2.0;
+			tailContinuesSideAngle -= 1.7;
 		}
 		if (isMoving) {
 			if (legsAngle > 20 || legsAngle < -20)
