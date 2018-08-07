@@ -169,7 +169,7 @@
     <ClInclude Include="imgui\stb_rect_pack.h" />
     <ClInclude Include="imgui\stb_textedit.h" />
     <ClInclude Include="imgui\stb_truetype.h" />
-    <ClInclude Include="Light.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="Spotlight.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Table.h" />

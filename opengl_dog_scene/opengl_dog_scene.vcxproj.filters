@@ -25,7 +25,6 @@
   <ItemGroup>
     <ClInclude Include="Dog.h" />
     <ClInclude Include="Floor.h" />
-    <ClInclude Include="Light.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="imgui\imgui.h">
@@ -59,6 +58,7 @@
     <ClInclude Include="Teapot.h" />
     <ClInclude Include="Snowman.h" />
     <ClInclude Include="Art.h" />
+    <ClInclude Include="PointLight.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">

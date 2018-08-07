@@ -36,18 +36,20 @@ void guiInteraction()
 			ImGui::SliderFloat("camera target y", &gContext.camera.target[1], -10.0f, 10.0f);
 			ImGui::SliderFloat("camera target z", &gContext.camera.target[2], -10.0f, 10.0f);
 		}
-		static bool globalLight = true;
+		static bool pointlight = true;
 		static bool spotlight = true;
 		if (ImGui::CollapsingHeader("Lights"))
 		{
-			ImGui::Checkbox("global", &globalLight); ImGui::SameLine();
-			ImGui::Checkbox("spotlight", &spotlight);
-			globalLight ? gContext.light.enable() : gContext.light.disable();
-			spotlight ? gContext.spotlight.enable() : gContext.spotlight.disable();
+			ImGui::SliderFloat("ambient light adjust", &gContext.globalAmbient, 0.0f, 1.0f);
+			ImGui::Checkbox("enable pointlight", &pointlight);
+			
+			ImGui::ColorEdit3("point light color", (float*)&gContext.pointlight.color);
+			ImGui::SliderFloat("pointlight source x", &gContext.pointlight.position[0], -10.0f, 10.0f);
+			ImGui::SliderFloat("pointlight source y", &gContext.pointlight.position[1], -10.0f, 10.0f);
+			ImGui::SliderFloat("pointlight source z", &gContext.pointlight.position[2], -10.0f, 10.0f);
 
-
-			ImGui::SliderFloat("ambient light adjust", &gContext.light.intensity, 0.0f, 1.0f);
-			ImGui::ColorEdit3("spotlight color", (float*)&gContext.spotlight.spotlightColor);
+			ImGui::Checkbox("enable spotlight", &spotlight);
+			ImGui::ColorEdit3("spotlight color", (float*)&gContext.spotlight.color);
 			ImGui::SliderFloat("spotlight source x", &gContext.spotlight.position[0], -10.0f, 10.0f);
 			ImGui::SliderFloat("spotlight source y", &gContext.spotlight.position[1], -10.0f, 10.0f);
 			ImGui::SliderFloat("spotlight source z", &gContext.spotlight.position[2], -10.0f, 10.0f);
@@ -56,6 +58,9 @@ void guiInteraction()
 			ImGui::SliderFloat("spotlight target z", &gContext.spotlight.target[2], -10.0f, 10.0f);
 			ImGui::SliderFloat("spotlight cutoff", &gContext.spotlight.cutoff, 0.0f, 90.0f);
 			ImGui::SliderFloat("spotlight exponent", &gContext.spotlight.exponent, 0.0f, 90.0f);
+
+			pointlight ? gContext.pointlight.enable() : gContext.pointlight.disable();
+			spotlight ? gContext.spotlight.enable() : gContext.spotlight.disable();
 		}
 		if (ImGui::CollapsingHeader("Help"))
 		{
@@ -166,9 +171,12 @@ void display() {
 
 	gContext.floor.draw();
 
+	GLfloat globalAmbientVec[4] = { gContext.globalAmbient, gContext.globalAmbient, gContext.globalAmbient, 1.0 };
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbientVec);
+
 	glPushMatrix();
-	glTranslatef(gContext.light.position[0], gContext.light.position[1], gContext.light.position[2]);
-	gContext.light.draw();
+	glTranslatef(gContext.pointlight.position[0], gContext.pointlight.position[1], gContext.pointlight.position[2]);
+	gContext.pointlight.draw();
 	glPopMatrix();
 
 	glPushMatrix();
@@ -236,7 +244,7 @@ int main(int argc, char** argv) {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_NORMALIZE);
 
-	gContext.light.enable();
+	gContext.pointlight.enable();
 	gContext.spotlight.enable();
 	gContext.dog.init();
 	gContext.art.init();

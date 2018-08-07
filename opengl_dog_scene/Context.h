@@ -1,7 +1,7 @@
 #pragma once
 #include "Dog.h"
 #include "Floor.h"
-#include "Light.h"
+#include "PointLight.h"
 #include "Spotlight.h"
 #include "Table.h"
 #include "Teapot.h"
@@ -14,12 +14,13 @@ The context holds all rendered objects, a single point to access the scene objec
 */
 class Context {
 public:
+	GLfloat globalAmbient = 0.3f;
 	int isDogView = 0;
 	Camera camera;
 	Floor floor;
 	Dog dog;
 	Table table;
-	Light light;
+	PointLight pointlight;
 	Spotlight spotlight;
 	Teapot teapot;
 	Snowman snowman;
