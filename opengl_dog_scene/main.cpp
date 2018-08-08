@@ -76,9 +76,9 @@ void guiInteraction()
 			ImGui::TextWrapped((string("The controls in the Camera section are controling the camera position in space and the camera target")+
 				string(" point in space.")).c_str());
 			ImGui::Text("Lights section:");
-			ImGui::TextWrapped((string("The controls in the Light section are controling the Light in the scene, 'global' and 'spotlight' are 2")+
-				string(" light sources that can be turned on a off by the checkboxes. 'ambient light adjust' controls the global illumination, ")+
-				string(" The spotlight controls the spotlight position in space and the spotlight target in space.")).c_str());
+			ImGui::TextWrapped((string("The controls in the Light section are controling the Light in the scene, 'pointlight' and 'spotlight' are 2") +
+				string(" light sources that can be turned on a off by the checkboxes. 'ambient light adjust' controls the global ambient light value, ") +
+				string(" The spotlight controls the spotlight position in space and the spotlight target in space. the pointlight controls the pointlight position in space")).c_str());
 		}
 		if (ImGui::Button("Quit"))
 		{
