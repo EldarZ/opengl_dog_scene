@@ -20,18 +20,13 @@ public:
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, artBmp);
 	}
 	void draw(){
-		GLfloat color[3] = { 1.0, 1.0, 1.0 };
-		glColor3fv(color);
-		GLfloat ambient[] = { 1.0f, 1.0f, 1.0f },
-			diffuse[] = { 1.0f, 1.0f, 1.0f },
-			specular[] = { 1.0f, 1.0f, 1.0f },
-			shininess = 128.0f;
+		GLfloat color[4] = { 1.0, 1.0, 1.0 , 1.0};
+		glColor4fv(color);
+		GLfloat specular[] = { 1.0f, 1.0f, 1.0f },
+				shininess = 128.0f;
 
-		glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
-		glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
 		glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
 		glMaterialf(GL_FRONT, GL_SHININESS, shininess);
-		glMaterialf(GL_FRONT, GL_EMISSION, 100);
 		glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color); 
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, texName);

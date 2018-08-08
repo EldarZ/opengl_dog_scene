@@ -5,20 +5,16 @@ void Dog::draw() {
 	updateConstantMovement();
 
 	glPushMatrix();
-	GLfloat color[3] = { 0.92f, 0.814f, 0.382f };
-	glColor3fv(color);
+	GLfloat color[4] = { 0.92f, 0.814f, 0.382f, 1.0f };
+	glColor4fv(color);
 
-	GLfloat dog_ambient[] = { 0.01f, 0.01f, 0.01f },
-		dog_diffuse[] = { 0.1f, 0.1f, 0.1f },
-		dog_specular[] = { 0.1f, 0.1f, 0.1f },
-		dog_shininess = 0.3f;
+	GLfloat dog_specular[] = { 0.1f, 0.1f, 0.1f },
+			dog_shininess = 0.1f;
 
-	glMaterialfv(GL_FRONT, GL_AMBIENT, dog_ambient);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, dog_diffuse);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, dog_specular);
 	glMaterialf(GL_FRONT, GL_SHININESS, dog_shininess);
 	glMaterialf(GL_FRONT, GL_EMISSION, 0);
-	glMaterialfv(GL_FRONT, GL_AMBIENT, color);
+	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
 
 	//torso
 	glPushMatrix();
@@ -100,14 +96,10 @@ void Dog::draw() {
 	glPopMatrix();
 
 	//eyes
-	GLfloat eyes_ambient[] = { 0.02f, 0.02f, 0.02f },
-		eyes_diffuse[] = { 0.02f, 0.01f, 0.01f },
-		eyes_specular[] = { 0.4f, 0.4f, 0.4f },
-		eyes_shininess = .0;
-	GLfloat black[] = { 0,0,0 };
-	glColor3fv(black);
-	glMaterialfv(GL_FRONT, GL_AMBIENT, eyes_ambient);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, eyes_diffuse);
+	GLfloat eyes_specular[] = { 0.4f, 0.4f, 0.4f },
+			eyes_shininess = 1.0f;
+	GLfloat black[] = { 0,0,0,1};
+	glColor4fv(black);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, eyes_specular);
 	glMaterialf(GL_FRONT, GL_SHININESS, eyes_shininess);
 	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, black);

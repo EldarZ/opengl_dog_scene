@@ -4,18 +4,14 @@
 void Table::draw()
 {
 	glPushMatrix();
-	GLfloat color[3] = { 0.651f, 0.502f, 0.392f };
-	glColor3fv(color);
+	GLfloat color[4] = { 0.651f, 0.502f, 0.392f, 1.0f};
+	glColor4fv(color);
 
-	GLfloat table_ambient[] = { 0.001f, 0.001f, 0.001f },
-		table_diffuse[] = { 0.0001f, 0.0001f, 0.0001f },
-		table_specular[] = { 0.1f, 0.1f, 0.1f },
-		table_shininess = 0.3f;
+	GLfloat specular[] = { 0.1f, 0.1f, 0.1f },
+			shininess = 0.3f;
 
-	glMaterialfv(GL_FRONT, GL_AMBIENT, table_ambient);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, table_diffuse);
-	glMaterialfv(GL_FRONT, GL_SPECULAR, table_specular);
-	glMaterialf(GL_FRONT, GL_SHININESS, table_shininess);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
+	glMaterialf(GL_FRONT, GL_SHININESS, shininess);
 	glMaterialf(GL_FRONT, GL_EMISSION, 0);
 	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color); 
 

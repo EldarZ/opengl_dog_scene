@@ -59,6 +59,7 @@
     <ClInclude Include="Snowman.h" />
     <ClInclude Include="Art.h" />
     <ClInclude Include="PointLight.h" />
+    <ClInclude Include="Walls.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">

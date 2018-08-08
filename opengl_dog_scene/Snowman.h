@@ -10,7 +10,7 @@ public:
 	{
 		glPushMatrix();
 		glEnable(GL_COLOR_MATERIAL);
-		glColor3f(1.0f, 1.0f, 1.0f);
+		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 		// Draw Body	
 		glTranslatef(0.0f, 0.75f, 0.0f);
@@ -22,7 +22,7 @@ public:
 
 		// Draw Eyes
 		glPushMatrix();
-		glColor3f(0.0f, 0.0f, 0.0f);
+		glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
 		glTranslatef(0.05f, 0.10f, 0.18f);
 		glutSolidSphere(0.05f, 10, 10);
 		glTranslatef(-0.1f, 0.0f, 0.0f);
@@ -30,7 +30,7 @@ public:
 		glPopMatrix();
 
 		// Draw Nose
-		glColor3f(1.0f, 0.5f, 0.5f);
+		glColor4f(1.0f, 0.5f, 0.5f, 1.0f);
 		glutSolidCone(0.08f, 0.5f, 10, 2);
 		glDisable(GL_COLOR_MATERIAL);
 		glPopMatrix();

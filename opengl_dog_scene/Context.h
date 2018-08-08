@@ -8,6 +8,7 @@
 #include "Snowman.h"
 #include "Camera.h"
 #include "Art.h"
+#include "Walls.h"
 
 /*
 The context holds all rendered objects, a single point to access the scene objects.
@@ -25,4 +26,5 @@ public:
 	Teapot teapot;
 	Snowman snowman;
 	Art art;
+	Walls walls;
 };

@@ -171,6 +171,7 @@ void display() {
 
 	gContext.floor.draw();
 
+	
 	GLfloat globalAmbientVec[4] = { gContext.globalAmbient, gContext.globalAmbient, gContext.globalAmbient, 1.0 };
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbientVec);
 
@@ -206,9 +207,16 @@ void display() {
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslated(1.0f, 1.5f,-5.0f);
+	glTranslated(1.0f, 1.5f,-4.99f);
 	gContext.art.draw();
 	glPopMatrix();
+
+	glPushMatrix();
+	gContext.walls.draw();
+	glPopMatrix();
+
+
+
 
 	//imgui does not handle light well
 	glDisable(GL_LIGHTING);
@@ -243,6 +251,8 @@ int main(int argc, char** argv) {
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_NORMALIZE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	gContext.pointlight.enable();
 	gContext.spotlight.enable();
