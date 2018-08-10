@@ -1,12 +1,15 @@
 #pragma once
+#include <vector>
 #include <GL\freeglut.h>
 
 class Walls {
 public:
-	GLfloat color[4] = { 0.254f, 0.69f, 0.55f, 0.3f };
+	GLfloat alpha = 0.5f;
+	GLfloat color[4] = { 1.0f,1.0f, 1.0f, -1.0f };
 
-	void draw() {
-		for (int i = 0; i < 3; i++) {
+	void draw(std::vector<int> wallsIndexs = {0, 1}) {
+
+		for (int i : wallsIndexs) {
 			glPushMatrix();
 			switch (i) {
 			case 0:
@@ -27,6 +30,7 @@ public:
 				break;
 			}
 
+			glEnable(GL_BLEND);
 			glBegin(GL_QUADS);
 			glNormal3d(0, 1, 0);
 			GLfloat ambient[] = { 0.5f, 0.5f, 0.5f },
@@ -37,6 +41,7 @@ public:
 			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
 			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
 
+			color[3] = alpha;
 			for (int x = -5; x < 5; x++) {
 				for (int z = -5; z < 5; z++) {
 					glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, color);
@@ -48,6 +53,7 @@ public:
 			}
 
 			glEnd();
+			glDisable(GL_BLEND);
 			glPopMatrix();
 		}
 

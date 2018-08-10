@@ -158,6 +158,7 @@
     <ClInclude Include="Art.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Context.h" />
+    <ClInclude Include="Mirror.h" />
     <ClInclude Include="Snowman.h" />
     <ClInclude Include="Dog.h" />
     <ClInclude Include="Floor.h" />

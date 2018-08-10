@@ -7,7 +7,7 @@ An Art piece, example of texture mapping of mona lisa
 class Art {
 public:
 	Art() {
-		artBmp = readBMP("..\\Assets\\mona.bmp");
+		imageData = allocateBmp("..\\Assets\\mona.bmp");
 	}
 
 	void init() {
@@ -17,7 +17,7 @@ public:
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, artBmp);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
 	}
 	void draw(){
 		GLfloat color[4] = { 1.0, 1.0, 1.0 , 1.0};
@@ -32,24 +32,24 @@ public:
 		glBindTexture(GL_TEXTURE_2D, texName);
 		glBegin(GL_QUADS);
 		
-		glTexCoord2f(0.0, 0.0); glVertex3f(-1.0, -1.0, 0.0);
-		glTexCoord2f(0.0, 1.0); glVertex3f(-1.0, 1.0, 0.0);
-		glTexCoord2f(1.0, 1.0); glVertex3f(1.0, 1.0, 0.0);
-		glTexCoord2f(1.0, 0.0); glVertex3f(1.0, -1.0, 0.0);
+		glTexCoord2f(0.0, 0.0); glVertex3f(-(float)height / (2.0f*(float)width), -1.0, 0.0);
+		glTexCoord2f(0.0, 1.0); glVertex3f(-(float)height / (2.0f*(float)width), 1.0, 0.0);
+		glTexCoord2f(1.0, 1.0); glVertex3f((float)height / (2.0f*(float)width), 1.0, 0.0);
+		glTexCoord2f(1.0, 0.0); glVertex3f((float)height / (2.0f*(float)width), -1.0, 0.0);
 		glEnd();
 		glDisable(GL_TEXTURE_2D);
 	}
 
 	~Art() {
-		delete[] artBmp;
+		delete[] imageData;
 	}
 private:
-	unsigned char * artBmp;
+	unsigned char * imageData;
 	GLuint texName;
 	GLsizei width;
 	GLsizei height;
 
-	unsigned char* readBMP(char* filename)
+	unsigned char* allocateBmp(char* filename)
 	{
 		int i;
 		FILE* f = nullptr;

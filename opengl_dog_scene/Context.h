@@ -8,6 +8,7 @@
 #include "Snowman.h"
 #include "Camera.h"
 #include "Art.h"
+#include "Mirror.h"
 #include "Walls.h"
 
 /*
@@ -26,5 +27,6 @@ public:
 	Teapot teapot;
 	Snowman snowman;
 	Art art;
+	Mirror mirror;
 	Walls walls;
 };

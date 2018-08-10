@@ -62,6 +62,10 @@ void guiInteraction()
 			pointlight ? gContext.pointlight.enable() : gContext.pointlight.disable();
 			spotlight ? gContext.spotlight.enable() : gContext.spotlight.disable();
 		}
+		if (ImGui::CollapsingHeader("Walls"))
+		{
+			ImGui::SliderFloat("alpha channel", &gContext.walls.alpha, 0.0f, 1.0f);
+		}
 		if (ImGui::CollapsingHeader("Help"))
 		{
 			ImGui::Text("Viewing modes:");
@@ -107,6 +111,58 @@ void keyboard(int key, int, int) {
 	glutPostRedisplay();
 }
 
+void drawScene() {
+	glPushMatrix();
+	glTranslatef(gContext.pointlight.position[0], gContext.pointlight.position[1], gContext.pointlight.position[2]);
+	gContext.pointlight.addLight();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(gContext.spotlight.position[0], gContext.spotlight.position[1], gContext.spotlight.position[2]);
+	gContext.spotlight.addlight();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(gContext.spotlight.position[0], gContext.spotlight.position[1], gContext.spotlight.position[2]);
+	gContext.spotlight.draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(gContext.pointlight.position[0], gContext.pointlight.position[1], gContext.pointlight.position[2]);
+	gContext.pointlight.draw();
+	glPopMatrix();
+
+	gContext.floor.draw();
+
+	glPushMatrix();
+	glMultMatrixf(gContext.dog.local);
+	gContext.dog.draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslated(-3, 1.05, -3);
+	gContext.table.draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslated(-2.2, 1.35, -3);
+	gContext.teapot.draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-3.0f, 0, 3);
+	glRotatef(90, 0, 1, 0);
+	gContext.snowman.draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslated(1.0f, 1.5f, -4.99f);
+	gContext.art.draw();
+	glPopMatrix();
+
+	gContext.walls.draw();
+}
+
 //display handling, rendering all objects
 void display() {
 	//imgui new frame
@@ -120,7 +176,7 @@ void display() {
 	ImGuiIO& io = ImGui::GetIO();
 
 	glViewport(0, 0, (GLsizei)io.DisplaySize.x, (GLsizei)io.DisplaySize.y);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(40.0, io.DisplaySize.x / io.DisplaySize.y, 1.0, 150.0);
@@ -169,54 +225,51 @@ void display() {
 			gContext.camera.target[0], gContext.camera.target[1], gContext.camera.target[2], 0, 1, 0);
 	}
 
-	gContext.floor.draw();
-
-	
 	GLfloat globalAmbientVec[4] = { gContext.globalAmbient, gContext.globalAmbient, gContext.globalAmbient, 1.0 };
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbientVec);
 
-	glPushMatrix();
-	glTranslatef(gContext.pointlight.position[0], gContext.pointlight.position[1], gContext.pointlight.position[2]);
-	gContext.pointlight.draw();
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(gContext.spotlight.position[0], gContext.spotlight.position[1], gContext.spotlight.position[2]);
-	gContext.spotlight.draw();
-	glPopMatrix();
-
-	glPushMatrix();
-	glMultMatrixf(gContext.dog.local);
-	gContext.dog.draw();
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslated(-3, 1.05, -3);
-	gContext.table.draw();
-	glPopMatrix();
+	drawScene();	
 	
+	//create mirror effect
+	glEnable(GL_STENCIL_TEST); 
+	glColorMask(0, 0, 0, 0); //Disable drawing colors to the screen
+	glDisable(GL_DEPTH_TEST); //Disable depth testing
+	glStencilFunc(GL_ALWAYS, 1, 1); //Make the stencil test always pass
+									//Make pixels in the stencil buffer be set to 1 when the stencil test passes
+	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+	//Set all of the pixels covered by the mirror to be 1 in the stencil buffer
 	glPushMatrix();
-	glTranslated(-2.2, 1.35, -3);
-	gContext.teapot.draw();
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(-3.0f, 0, 1);
 	glRotatef(90, 0, 1, 0);
-	gContext.snowman.draw();
+	glTranslatef(-1, 0.2, 4.99f);
+	gContext.mirror.draw();
 	glPopMatrix();
 
+	glColorMask(1, 1, 1, 1); //Enable drawing colors to the screen
+	glEnable(GL_DEPTH_TEST); //Enable depth testing
+							 //Make the stencil test pass only when the pixel is 1 in the stencil buffer
+	glStencilFunc(GL_EQUAL, 1, 1);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); //Make the stencil buffer not change
+
+	//Draw the scene, reflected in the mirror
 	glPushMatrix();
-	glTranslated(1.0f, 1.5f,-4.99f);
-	gContext.art.draw();
+	glTranslatef(10.001f, 0, 0);
+	glScalef(-1, 1, 1);
+	drawScene();
 	glPopMatrix();
 
+	glDisable(GL_STENCIL_TEST); //Disable using the stencil buffer
+
+	//Blend the mirror onto the screen
+	glEnable(GL_BLEND);
 	glPushMatrix();
-	gContext.walls.draw();
+	glRotatef(90, 0, 1, 0);
+	glTranslatef(-1, 0.2, 4.99f);
+	gContext.mirror.draw();
 	glPopMatrix();
+	glDisable(GL_BLEND);
 
-
-
+	//add the wall next to the mirror
+	gContext.walls.draw({ 2 });
 
 	//imgui does not handle light well
 	glDisable(GL_LIGHTING);
@@ -231,7 +284,7 @@ void display() {
 int main(int argc, char** argv) {
 	glutInit(&argc, argv);
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE | GLUT_STENCIL);
 	glutInitWindowPosition(80, 80);
 	glutInitWindowSize(1200, 600);
 	glutCreateWindow("Computer Graphics Project");
@@ -251,7 +304,6 @@ int main(int argc, char** argv) {
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_NORMALIZE);
-	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	gContext.pointlight.enable();

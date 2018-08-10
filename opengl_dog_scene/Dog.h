@@ -47,7 +47,7 @@ public:
 		glLoadIdentity();
 
 		glRotatef(-90.0f, 0.0f, 1.0f, 0.0f);
-		glTranslatef(0, 3.5f * 0.30f, -3.0f);
+		glTranslatef(-0.5, 3.5f * 0.30f, -2.8f);
 
 		glGetFloatv(GL_MODELVIEW_MATRIX, local);
 		glLoadMatrixf(viewModelMatrix);

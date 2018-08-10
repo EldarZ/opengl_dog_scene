@@ -60,6 +60,7 @@
     <ClInclude Include="Art.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Walls.h" />
+    <ClInclude Include="Mirror.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
