@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <math.h>
 
 /*
@@ -31,6 +31,15 @@ public:
 			return;
 	
 		glPushMatrix();
+		GLfloat dark[4] = { 0.01f, 0.1f, 0.01f, 1.0f };
+		
+		GLfloat up[3] = { 0, 1, 0 };
+		lookAt(position, target, up);
+
+		glColor4fv(dark);
+		glEnable(GL_COLOR_MATERIAL);
+		glutSolidCone(0.4, 0.7, 10, 10);
+		glDisable(GL_COLOR_MATERIAL);
 		glDisable(GL_LIGHTING);
 		glColor3fv(color);
 		glutSolidSphere(0.2, 100, 100);
@@ -46,5 +55,58 @@ public:
 	void enable()
 	{
 		glEnable(GL_LIGHT1);
+	}
+
+	void normalize(const GLfloat* vec, GLfloat* output)
+	{
+		GLfloat length = sqrt(vec[0] * vec[0] + vec[1] * vec[1] + vec[2] * vec[2]);
+		output[0] /= length;
+		output[1] /= length;
+		output[2] /= length;
+	}
+
+	void cross(const GLfloat* vec1, const GLfloat* vec2, GLfloat * output) {
+		output[0] = vec1[1] * vec2[2] - vec1[2] * vec2[1];
+		output[1] = vec1[2] * vec2[0] - vec1[0] * vec2[2];
+		output[2] = vec1[0] * vec2[1] - vec1[1] * vec2[0];
+	}
+
+	void lookAt(GLfloat* eye, GLfloat* center, GLfloat* up)
+	{
+		GLfloat f[3] = { center[0] - eye[0],
+						 center[1] - eye[1],
+						 center[2] - eye[2] };
+
+		normalize(f, f);
+		GLfloat u[3];
+		normalize(up, u);
+		GLfloat s[3];
+		cross(f, u, s);
+		normalize(s, s);
+		cross(s, f, u);
+		normalize(u, u);
+
+		GLfloat rotationMatrixFromOrientation[16];
+		rotationMatrixFromOrientation[0] = s[0];
+		rotationMatrixFromOrientation[1] = s[1];
+		rotationMatrixFromOrientation[2] = s[2];
+		rotationMatrixFromOrientation[3] = 0;
+
+		rotationMatrixFromOrientation[4] = u[0];
+		rotationMatrixFromOrientation[5] = u[1];
+		rotationMatrixFromOrientation[6] = u[2];
+		rotationMatrixFromOrientation[7] = 0;
+
+		rotationMatrixFromOrientation[8] =  -f[0];
+		rotationMatrixFromOrientation[9] =  -f[1];
+		rotationMatrixFromOrientation[10] = -f[2];
+		rotationMatrixFromOrientation[11] = 0;
+
+		rotationMatrixFromOrientation[12] = 0;
+		rotationMatrixFromOrientation[13] = 0;
+		rotationMatrixFromOrientation[14] = 0;
+		rotationMatrixFromOrientation[15] = 1;
+
+		glMultMatrixf(rotationMatrixFromOrientation);	
 	}
 };

@@ -7,7 +7,7 @@ public:
 	GLfloat alpha = 0.5f;
 	GLfloat color[4] = { 1.0f,1.0f, 1.0f, -1.0f };
 
-	void draw(std::vector<int> wallsIndexs = {0, 1}) {
+	void draw(std::vector<int> wallsIndexs) {
 
 		for (int i : wallsIndexs) {
 			glPushMatrix();

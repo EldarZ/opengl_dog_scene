@@ -96,16 +96,16 @@ void guiInteraction()
 void keyboard(int key, int, int) {
 	switch (key) {
 	case GLUT_KEY_LEFT:
-		gContext.dog.nextMove = []() { glRotatef(10, 0, 1, 0); };
+		gContext.dog.nextMove = []() { glRotatef(7, 0, 1, 0); };
 		break;
 	case GLUT_KEY_RIGHT:
-		gContext.dog.nextMove = []() { glRotatef(-10, 0, 1, 0); };
+		gContext.dog.nextMove = []() { glRotatef(-7, 0, 1, 0); };
 		break;
 	case GLUT_KEY_UP:
-		gContext.dog.nextMove = []() { glTranslated(0, 0, 0.3); };
+		gContext.dog.nextMove = []() { glTranslated(0, 0, 0.2); };
 		break;
 	case GLUT_KEY_DOWN:
-		gContext.dog.nextMove = []() { glTranslated(0, 0, -0.3); };
+		gContext.dog.nextMove = []() { glTranslated(0, 0, -0.2); };
 		break;
 	}
 	glutPostRedisplay();
@@ -160,7 +160,7 @@ void drawScene() {
 	gContext.art.draw();
 	glPopMatrix();
 
-	gContext.walls.draw();
+	gContext.walls.draw({ 0, 1 });
 }
 
 //display handling, rendering all objects
