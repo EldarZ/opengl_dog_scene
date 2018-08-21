@@ -31,15 +31,25 @@ public:
 			return;
 	
 		glPushMatrix();
-		GLfloat dark[4] = { 0.01f, 0.1f, 0.01f, 1.0f };
-		
 		GLfloat up[3] = { 0, 1, 0 };
 		lookAt(position, target, up);
 
-		glColor4fv(dark);
-		glEnable(GL_COLOR_MATERIAL);
-		glutSolidCone(0.4, 0.7, 10, 10);
-		glDisable(GL_COLOR_MATERIAL);
+		GLfloat ambient[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
+		GLfloat diffuse[4] = { 0.01f, 0.01f, 0.01f, 1.0f };
+		GLfloat specular[4] = { 0.5f, 0.5f, 0.5f, 1.0f };
+		GLfloat shininess = 32.0f;
+
+		glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
+		glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
+		glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
+		glMaterialf(GL_FRONT, GL_SHININESS, shininess);
+
+		glutSolidCone(0.3, 0.6, 10, 10);
+		glPushMatrix();
+		glTranslatef(0, 0, 0.1);
+		glutSolidCylinder(0.2, 0.39, 10, 10);
+		glPopMatrix();
+
 		glDisable(GL_LIGHTING);
 		glColor3fv(color);
 		glutSolidSphere(0.2, 100, 100);
