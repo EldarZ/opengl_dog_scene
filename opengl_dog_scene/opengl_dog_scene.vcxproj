@@ -23,7 +23,7 @@
     <ProjectGuid>{52D912D1-4164-46B6-8A5B-17F7CA4C89CF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ProjectCG</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
     <ProjectName>opengl_dog_scene</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -179,6 +179,8 @@
     <ClInclude Include="Walls.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Art.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
@@ -187,8 +189,14 @@
     <ClCompile Include="imgui\imgui_impl_opengl2.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Dog.cpp" />
+    <ClCompile Include="Mirror.cpp" />
+    <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="Snowman.cpp" />
+    <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Table.cpp" />
+    <ClCompile Include="Teapot.cpp" />
+    <ClCompile Include="Walls.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

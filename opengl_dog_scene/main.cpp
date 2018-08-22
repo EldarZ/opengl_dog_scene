@@ -240,7 +240,7 @@ void display() {
 	//Set all of the pixels covered by the mirror to be 1 in the stencil buffer
 	glPushMatrix();
 	glRotatef(90, 0, 1, 0);
-	glTranslatef(-1, 0.2, 4.99f);
+	glTranslatef(-1, 0.2f, 4.99f);
 	gContext.mirror.draw();
 	glPopMatrix();
 
@@ -263,7 +263,7 @@ void display() {
 	glEnable(GL_BLEND);
 	glPushMatrix();
 	glRotatef(90, 0, 1, 0);
-	glTranslatef(-1, 0.2, 4.99f);
+	glTranslatef(-1, 0.2f, 4.99f);
 	gContext.mirror.draw();
 	glPopMatrix();
 	glDisable(GL_BLEND);
@@ -287,7 +287,7 @@ int main(int argc, char** argv) {
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE | GLUT_STENCIL);
 	glutInitWindowPosition(80, 80);
 	glutInitWindowSize(1200, 600);
-	glutCreateWindow("Computer Graphics Project");
+	glutCreateWindow("opengl dog scene");
 	glutDisplayFunc(display);
 
 	// Setup ImGui binding

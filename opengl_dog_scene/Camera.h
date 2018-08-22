@@ -1,12 +1,15 @@
 #pragma once
+#include <GL\freeglut.h>
 
 /*
-Camera object
+the Camera controling the external view point.
 */
 class Camera
 {
 public:
-	GLfloat position[3] = { -4.0f, 5.0f, 10.0f };
-	GLfloat target[3] = { -2.3f, 0.0f, 0.0f };
+	Camera();
+	GLfloat position[3];
+	GLfloat target[3];
+	~Camera() = default;
 };
 

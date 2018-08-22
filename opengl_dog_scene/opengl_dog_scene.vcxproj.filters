@@ -21,6 +21,14 @@
     <ClCompile Include="imgui\imgui_demo.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
+    <ClCompile Include="Art.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Mirror.cpp" />
+    <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="Snowman.cpp" />
+    <ClCompile Include="SpotLight.cpp" />
+    <ClCompile Include="Teapot.cpp" />
+    <ClCompile Include="Walls.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dog.h" />

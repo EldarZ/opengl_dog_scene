@@ -1,6 +1,29 @@
 #include "Dog.h"
 #include <GL\freeglut.h>
 
+Dog::Dog() :headHorizontalAngle(0.0f),
+            headVerticalAngle(10.0f),
+            tailHorizontalAngle(0.0f),
+            tailVerticalAngle(-10.0f),
+            tailWiggleAngle(0.0f),
+            tailWiggleDirectionLeft(true),
+            legsAngle(0.0f),
+            legsMovementDirectionForward(true),
+            nextMove(nullptr),
+            isMoving(false) {};
+
+void Dog::init() {
+	GLfloat viewModelMatrix[16];
+	glGetFloatv(GL_MODELVIEW_MATRIX, viewModelMatrix);
+	glLoadIdentity();
+
+	glRotatef(-90.0f, 0.0f, 1.0f, 0.0f);
+	glTranslatef(-0.5, 3.5f * 0.30f, -2.8f);
+
+	glGetFloatv(GL_MODELVIEW_MATRIX, local);
+	glLoadMatrixf(viewModelMatrix);
+}
+
 void Dog::draw() {
 	updateConstantMovement();
 
@@ -119,4 +142,32 @@ void Dog::draw() {
 	glPopMatrix();
 
 	glPopMatrix();
+}
+
+void Dog::updateConstantMovement() {
+	if (tailWiggleAngle > 8 || tailWiggleAngle < -8)
+	{
+		tailWiggleDirectionLeft = !tailWiggleDirectionLeft;
+	}
+	if (tailWiggleDirectionLeft)
+	{
+		tailWiggleAngle += 1.7f;
+	}
+	else {
+		tailWiggleAngle -= 1.7f;
+	}
+	if (isMoving) {
+		if (legsAngle > 20 || legsAngle < -20)
+		{
+			legsMovementDirectionForward = !legsMovementDirectionForward;
+		}
+		if (legsMovementDirectionForward)
+		{
+			legsAngle += 6.0;
+		}
+		else {
+			legsAngle -= 6.0;
+		}
+		isMoving = false;
+	}
 }

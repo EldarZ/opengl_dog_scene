@@ -1,13 +1,9 @@
 #include "Floor.h"
 
-Floor::Floor() : startX(-5), startZ(-5), endx(5), endz(5)
-{
-	
-};
+Floor::Floor() : startX(-5), startZ(-5), endx(5), endz(5),
+				 color1{ 0.1f, 0.1f, 0.1f, 1.0f },
+				 color2 { 0.7f, 0.7f, 0.7f, 1.0f } {};
 
-/*
-renders the floor
-*/
 void Floor::draw()
 {
 	glPushMatrix();
@@ -30,9 +26,4 @@ void Floor::draw()
 
 	glEnd();
 	glPopMatrix();
-}
-
-
-Floor::~Floor()
-{
 }

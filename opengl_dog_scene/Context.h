@@ -23,7 +23,7 @@ public:
 	Dog dog;
 	Table table;
 	PointLight pointlight;
-	Spotlight spotlight;
+	SpotLight spotlight;
 	Teapot teapot;
 	Snowman snowman;
 	Art art;
