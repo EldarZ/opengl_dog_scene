@@ -95,18 +95,10 @@ void guiInteraction()
 //keyboard events handling
 void keyboard(int key, int, int) {
 	switch (key) {
-	case GLUT_KEY_LEFT:
-		gContext.dog.nextMove = []() { glRotatef(7, 0, 1, 0); };
-		break;
-	case GLUT_KEY_RIGHT:
-		gContext.dog.nextMove = []() { glRotatef(-7, 0, 1, 0); };
-		break;
-	case GLUT_KEY_UP:
-		gContext.dog.nextMove = []() { glTranslated(0, 0, 0.2); };
-		break;
-	case GLUT_KEY_DOWN:
-		gContext.dog.nextMove = []() { glTranslated(0, 0, -0.2); };
-		break;
+	case GLUT_KEY_LEFT:  gContext.dog.nextMove = []() { glRotatef(7, 0, 1, 0); };   break;
+	case GLUT_KEY_RIGHT: gContext.dog.nextMove = []() { glRotatef(-7, 0, 1, 0); };  break;
+	case GLUT_KEY_UP:	 gContext.dog.nextMove = []() { glTranslated(0, 0, 0.2); }; break;
+	case GLUT_KEY_DOWN:  gContext.dog.nextMove = []() { glTranslated(0, 0, -0.2); };break;
 	}
 	glutPostRedisplay();
 }
@@ -292,7 +284,6 @@ int main(int argc, char** argv) {
 
 	// Setup ImGui binding
 	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
 
 	ImGui_ImplFreeGLUT_Init();
 	ImGui_ImplFreeGLUT_InstallFuncs();
