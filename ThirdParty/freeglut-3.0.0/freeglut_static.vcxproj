@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B4238C3F-F1F3-3F99-8148-784D1F909990}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>freeglut_static</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)build\lib\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)build\$(BaseIntermediateOutputPath)$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">freeglut_staticd</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)build\lib\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)build\$(BaseIntermediateOutputPath)$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">freeglut_static</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\freeglut-3.0.0\src;$(SolutionDir)ThirdParty\freeglut-3.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsC</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;FREEGLUT_STATIC;_CRT_SECURE_NO_WARNINGS;_WIN32_WINNT=0x0500;WINVER=0x0500;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;FREEGLUT_STATIC;_CRT_SECURE_NO_WARNINGS;_WIN32_WINNT=0x0500;WINVER=0x0500;HAVE_CONFIG_H;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\freeglut-3.0.0\src</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Eldar\openu\cg\freeglut-3.0.0.tar\freeglut-3.0.0\src;C:\Eldar\openu\cg\freeglut-3.0.0.tar\freeglut-3.0.0\include;C:\Eldar\openu\cg\freeglut-3.0.0.tar\freeglut-3.0.0\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\freeglut-3.0.0\src;$(SolutionDir)ThirdParty\freeglut-3.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsC</CompileAs>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;FREEGLUT_STATIC;_CRT_SECURE_NO_WARNINGS;_WIN32_WINNT=0x0500;WINVER=0x0500;HAVE_CONFIG_H;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;FREEGLUT_STATIC;_CRT_SECURE_NO_WARNINGS;_WIN32_WINNT=0x0500;WINVER=0x0500;HAVE_CONFIG_H;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Eldar\openu\cg\freeglut-3.0.0.tar\freeglut-3.0.0\src;C:\Eldar\openu\cg\freeglut-3.0.0.tar\freeglut-3.0.0\include;C:\Eldar\openu\cg\freeglut-3.0.0.tar\freeglut-3.0.0\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Eldar\openu\cg\freeglut-3.0.0.tar\freeglut-3.0.0\src;C:\Eldar\openu\cg\freeglut-3.0.0.tar\freeglut-3.0.0\include;C:\Eldar\openu\cg\freeglut-3.0.0.tar\freeglut-3.0.0\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\include\GL\freeglut.h" />
+    <ClInclude Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\include\GL\freeglut_ext.h" />
+    <ClInclude Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\include\GL\freeglut_std.h" />
+    <ClInclude Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\include\GL\glut.h" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_callbacks.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_cursor.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_display.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_ext.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_font_data.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_gamemode.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_geometry.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_gl2.c" />
+    <ClInclude Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_gl2.h" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_init.c" />
+    <ClInclude Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_init.h" />
+    <ClInclude Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_internal.h" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_input_devices.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_joystick.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_main.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_misc.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_overlay.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_spaceball.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_state.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_stroke_mono_roman.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_stroke_roman.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_structure.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_teapot.c" />
+    <ClInclude Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_teapot_data.h" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_videoresize.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_window.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_font.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\fg_menu.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\mswin\fg_cursor_mswin.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\mswin\fg_display_mswin.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\mswin\fg_ext_mswin.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\mswin\fg_gamemode_mswin.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\mswin\fg_init_mswin.c" />
+    <ClInclude Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\mswin\fg_internal_mswin.h" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\mswin\fg_input_devices_mswin.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\mswin\fg_joystick_mswin.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\mswin\fg_main_mswin.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\mswin\fg_menu_mswin.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\mswin\fg_spaceball_mswin.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\mswin\fg_state_mswin.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\mswin\fg_structure_mswin.c" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\mswin\fg_window_mswin.c" />
+    <ResourceCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\freeglut.rc" />
+    <None Include="C:\Eldar\openu\cg\freeglut-3.0.0.tar\freeglut-3.0.0\build\freeglutdll.def" />
+    <ClCompile Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\util\xparsegeometry_repl.c" />
+    <ClInclude Include="$(SolutionDir)ThirdParty\freeglut-3.0.0\src\util\xparsegeometry_repl.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
