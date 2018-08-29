@@ -1,5 +1,6 @@
 # opengl dog scene
-![scene gif](https://giant.gfycat.com/BlushingPowerfulEnglishpointer.gif)
+<p align="center"><img src="https://github.com/EldarZ/opengl_dog_scene/blob/gif_test/Assets/dog_scene.gif" alt="scene gif"/></p>
+
 
 Implemented with Opengl legacy 1.1, [fixed function pipline](https://www.khronos.org/opengl/wiki/Fixed_Function_Pipeline) for educational purposes.
 
