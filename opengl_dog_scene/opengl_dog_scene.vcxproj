@@ -47,10 +47,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)build\bin\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(BaseIntermediateOutputPath)$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)build\bin\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(BaseIntermediateOutputPath)$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -59,7 +61,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;FREEGLUT_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\freeglut-3.0.0\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\freeglut-3.0.0\include;$(SolutionDir)ThirdParty\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -80,7 +82,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;FREEGLUT_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\freeglut-3.0.0\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\freeglut-3.0.0\include;$(SolutionDir)ThirdParty\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -94,6 +96,14 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\ThirdParty\imgui\imconfig.h" />
+    <ClInclude Include="..\ThirdParty\imgui\imgui.h" />
+    <ClInclude Include="..\ThirdParty\imgui\imgui_impl_freeglut.h" />
+    <ClInclude Include="..\ThirdParty\imgui\imgui_impl_opengl2.h" />
+    <ClInclude Include="..\ThirdParty\imgui\imgui_internal.h" />
+    <ClInclude Include="..\ThirdParty\imgui\stb_rect_pack.h" />
+    <ClInclude Include="..\ThirdParty\imgui\stb_textedit.h" />
+    <ClInclude Include="..\ThirdParty\imgui\stb_truetype.h" />
     <ClInclude Include="Art.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Context.h" />
@@ -101,14 +111,6 @@
     <ClInclude Include="Snowman.h" />
     <ClInclude Include="Dog.h" />
     <ClInclude Include="Floor.h" />
-    <ClInclude Include="imgui\imconfig.h" />
-    <ClInclude Include="imgui\imgui.h" />
-    <ClInclude Include="imgui\imgui_impl_freeglut.h" />
-    <ClInclude Include="imgui\imgui_impl_opengl2.h" />
-    <ClInclude Include="imgui\imgui_internal.h" />
-    <ClInclude Include="imgui\stb_rect_pack.h" />
-    <ClInclude Include="imgui\stb_textedit.h" />
-    <ClInclude Include="imgui\stb_truetype.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Spotlight.h" />
     <ClInclude Include="stdafx.h" />
@@ -118,14 +120,14 @@
     <ClInclude Include="Walls.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\ThirdParty\imgui\imgui.cpp" />
+    <ClCompile Include="..\ThirdParty\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\ThirdParty\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\ThirdParty\imgui\imgui_impl_freeglut.cpp" />
+    <ClCompile Include="..\ThirdParty\imgui\imgui_impl_opengl2.cpp" />
     <ClCompile Include="Art.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Floor.cpp" />
-    <ClCompile Include="imgui\imgui.cpp" />
-    <ClCompile Include="imgui\imgui_demo.cpp" />
-    <ClCompile Include="imgui\imgui_draw.cpp" />
-    <ClCompile Include="imgui\imgui_impl_freeglut.cpp" />
-    <ClCompile Include="imgui\imgui_impl_opengl2.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Dog.cpp" />
     <ClCompile Include="Mirror.cpp" />
@@ -136,6 +138,9 @@
     <ClCompile Include="Table.cpp" />
     <ClCompile Include="Teapot.cpp" />
     <ClCompile Include="Walls.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\ThirdParty\imgui\imgui.ini" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
