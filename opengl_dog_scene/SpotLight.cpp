@@ -90,26 +90,26 @@ void SpotLight::lookAt(GLfloat* eye, GLfloat* center, GLfloat* up)
 	cross(s, f, u);
 	normalize(u, u);
 
-	GLfloat rotationMatrixFromOrientation[16];
-	rotationMatrixFromOrientation[0] = s[0];
-	rotationMatrixFromOrientation[1] = s[1];
-	rotationMatrixFromOrientation[2] = s[2];
-	rotationMatrixFromOrientation[3] = 0;
+	GLfloat rotationMatrix[16];
+	rotationMatrix[0] = s[0];
+	rotationMatrix[1] = s[1];
+	rotationMatrix[2] = s[2];
+	rotationMatrix[3] = 0;
 
-	rotationMatrixFromOrientation[4] = u[0];
-	rotationMatrixFromOrientation[5] = u[1];
-	rotationMatrixFromOrientation[6] = u[2];
-	rotationMatrixFromOrientation[7] = 0;
+	rotationMatrix[4] = u[0];
+	rotationMatrix[5] = u[1];
+	rotationMatrix[6] = u[2];
+	rotationMatrix[7] = 0;
 
-	rotationMatrixFromOrientation[8] = -f[0];
-	rotationMatrixFromOrientation[9] = -f[1];
-	rotationMatrixFromOrientation[10] = -f[2];
-	rotationMatrixFromOrientation[11] = 0;
+	rotationMatrix[8] = -f[0];
+	rotationMatrix[9] = -f[1];
+	rotationMatrix[10] = -f[2];
+	rotationMatrix[11] = 0;
 
-	rotationMatrixFromOrientation[12] = 0;
-	rotationMatrixFromOrientation[13] = 0;
-	rotationMatrixFromOrientation[14] = 0;
-	rotationMatrixFromOrientation[15] = 1;
+	rotationMatrix[12] = 0;
+	rotationMatrix[13] = 0;
+	rotationMatrix[14] = 0;
+	rotationMatrix[15] = 1;
 
-	glMultMatrixf(rotationMatrixFromOrientation);
+	glMultMatrixf(rotationMatrix);
 }

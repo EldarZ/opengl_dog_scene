@@ -43,13 +43,13 @@ void guiInteraction()
 			ImGui::SliderFloat("ambient light adjust", &gContext.globalAmbient, 0.0f, 1.0f);
 			ImGui::Checkbox("enable pointlight", &pointlight);
 			
-			ImGui::ColorEdit3("point light color", (float*)&gContext.pointlight.color);
+			ImGui::ColorEdit3("point light color", reinterpret_cast<float*>(&gContext.pointlight.color));
 			ImGui::SliderFloat("pointlight source x", &gContext.pointlight.position[0], -10.0f, 10.0f);
 			ImGui::SliderFloat("pointlight source y", &gContext.pointlight.position[1], -10.0f, 10.0f);
 			ImGui::SliderFloat("pointlight source z", &gContext.pointlight.position[2], -10.0f, 10.0f);
 
 			ImGui::Checkbox("enable spotlight", &spotlight);
-			ImGui::ColorEdit3("spotlight color", (float*)&gContext.spotlight.color);
+			ImGui::ColorEdit3("spotlight color", reinterpret_cast<float*>(&gContext.spotlight.color));
 			ImGui::SliderFloat("spotlight source x", &gContext.spotlight.position[0], -10.0f, 10.0f);
 			ImGui::SliderFloat("spotlight source y", &gContext.spotlight.position[1], -10.0f, 10.0f);
 			ImGui::SliderFloat("spotlight source z", &gContext.spotlight.position[2], -10.0f, 10.0f);
@@ -201,8 +201,9 @@ void display() {
 		glGetFloatv(GL_MODELVIEW_MATRIX, cameraPoseInDogView);
 		glLoadMatrixf(viewModelMatrix);
 
+		//Hack...
 		GLfloat zAngle = atan2(-cameraPoseInDogView[2], cameraPoseInDogView[0]);
-		GLfloat yAngle = atan2(-cameraPoseInDogView[9], cameraPoseInDogView[5]);;
+		GLfloat yAngle = atan2(-cameraPoseInDogView[9], cameraPoseInDogView[5]);
 		
 		gluLookAt(cameraPoseInDogView[12], cameraPoseInDogView[13], cameraPoseInDogView[14],
 			sin(zAngle) + cameraPoseInDogView[12],
