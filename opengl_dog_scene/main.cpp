@@ -102,6 +102,52 @@ void keyboard(int key, int, int) {
 	}
 	glutPostRedisplay();
 }
+#include "md5_loader/timer.h"
+#include "md5_loader/md5mesh.h"
+#include <memory>
+
+unique_ptr<Timer> gTimer(new Timer());
+unique_ptr<MD5Mesh> gModel(new MD5Mesh());
+
+void RenderMesh(MD5Mesh* mesh)
+{
+	Vertice* pVerts;
+	unsigned int* pIndexes;
+	unsigned int iNumMeshes = mesh->GetMeshesCount();
+
+	glPushMatrix();
+	glRotatef(-90, 1, 0, 0);
+	glColor3f(1, 1, 1);
+
+	//glEnable(GL_NORMALIZE);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnable(GL_TEXTURE_2D);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glEnable(GL_BLEND);
+
+	//glEnable(GL_CULL_FACE);
+	glFrontFace(GL_CW);
+	for (unsigned int j = 0; j<iNumMeshes; j++)
+	{
+		pVerts = mesh->GetVertexList(j);
+		pIndexes = mesh->GetIndexes(j);
+
+		if (mesh->GetMaterial(j) && mesh->GetMaterial(j)->HasPrimary())
+			glBindTexture(GL_TEXTURE_2D, mesh->GetMaterial(j)->GetFirstTexture()->iId);
+
+		glVertexPointer(3, GL_FLOAT, sizeof(Vertice), &pVerts[0].vPosition);
+		glTexCoordPointer(2, GL_FLOAT, sizeof(Vertice), &pVerts[0].s);
+
+		glDrawElements(GL_TRIANGLES, mesh->GetTrianglesCount(j) * 3, GL_UNSIGNED_INT, pIndexes);
+	}
+	glFrontFace(GL_CCW);
+	//desactivation de la texture de couleur 
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisable(GL_TEXTURE_2D);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+	glPopMatrix();
+}
 
 void drawScene() {
 	glPushMatrix();
@@ -142,14 +188,21 @@ void drawScene() {
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(-3.0f, 0, 3);
-	glRotatef(90, 0, 1, 0);
+	glTranslatef(3.0f, 0, 3);
+	glRotatef(-90, 0, 1, 0);
 	gContext.snowman.draw();
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslated(1.0f, 1.5f, -4.99f);
 	gContext.art.draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-3.5f, 0, 3.5f);
+	glScalef(0.5, 0.5, 0.5);
+	glRotatef(120, 0, 1, 0);
+	RenderMesh(gModel.get());
 	glPopMatrix();
 
 	gContext.walls.draw({ 0, 1 });
@@ -216,6 +269,10 @@ void display() {
 		gluLookAt(gContext.camera.position[0], gContext.camera.position[1], gContext.camera.position[2],
 			gContext.camera.target[0], gContext.camera.target[1], gContext.camera.target[2], 0, 1, 0);
 	}
+
+	gTimer->CalculateFrameRate();
+	auto x = gTimer->GetFrameInterval();
+	gModel->PreRender(1);
 
 	GLfloat globalAmbientVec[4] = { gContext.globalAmbient, gContext.globalAmbient, gContext.globalAmbient, 1.0 };
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbientVec);
@@ -301,7 +358,9 @@ int main(int argc, char** argv) {
 	gContext.spotlight.enable();
 	gContext.dog.init();
 	gContext.art.init();
-
+	gModel->LoadMesh("..\\Assets\\bob_lamp_update.md5mesh");
+	gModel->LoadAnim("..\\Assets\\bob_lamp_update.md5anim");
+	gModel->SetAnimation("bob_lamp_update");
 	// Setup style
 	ImGui::StyleColorsClassic();
 

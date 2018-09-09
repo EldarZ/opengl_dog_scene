@@ -1,6 +1,6 @@
 #include "SpotLight.h"
 
-SpotLight::SpotLight():position{ -1.0f, 2.5f, 0.0f , 1.0f },
+SpotLight::SpotLight():position{ -2.0f, 2.5f, 0.0f , 1.0f },
            target{ 0.1f, 0.0f, 0.0f },
            color{ 1.0f, 1.0f, 1.0f },
            cutoff(30.0f),

@@ -29,6 +29,21 @@
     <ClCompile Include="..\ThirdParty\imgui\imgui_impl_opengl2.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
+    <ClCompile Include="..\ThirdParty\md5_loader\md5mesh.cc">
+      <Filter>md5_loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParty\md5_loader\quaternion.cc">
+      <Filter>md5_loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParty\md5_loader\texture.cc">
+      <Filter>md5_loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParty\md5_loader\timer.cc">
+      <Filter>md5_loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParty\md5_loader\vector3.cc">
+      <Filter>md5_loader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dog.h" />
@@ -69,10 +84,34 @@
     <ClInclude Include="..\ThirdParty\imgui\stb_truetype.h">
       <Filter>imgui</Filter>
     </ClInclude>
+    <ClInclude Include="..\ThirdParty\md5_loader\material.h">
+      <Filter>md5_loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\md5_loader\md5mesh.h">
+      <Filter>md5_loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\md5_loader\plane.h">
+      <Filter>md5_loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\md5_loader\quaternion.h">
+      <Filter>md5_loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\md5_loader\texture.h">
+      <Filter>md5_loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\md5_loader\timer.h">
+      <Filter>md5_loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\md5_loader\vector3.h">
+      <Filter>md5_loader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="imgui">
       <UniqueIdentifier>{33e4e2a6-3788-4840-9076-a9773c436bed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="md5_loader">
+      <UniqueIdentifier>{24081c26-cc9c-4958-a2a7-0ac16f9b6e8d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
