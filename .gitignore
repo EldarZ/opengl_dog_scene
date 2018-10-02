@@ -327,3 +327,6 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder
 .mfractor/
+
+# opengl_dog_scene
+opengl_dog_scene/imgui.ini

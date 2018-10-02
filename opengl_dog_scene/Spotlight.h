@@ -18,8 +18,9 @@ public:
 	void draw();
 	void disable();
 	void enable();
+	~SpotLight() = default;
+private:
 	void normalize(const GLfloat* vec, GLfloat* output);
 	void cross(const GLfloat* vec1, const GLfloat* vec2, GLfloat * output);
 	void lookAt(GLfloat* eye, GLfloat* center, GLfloat* up);
-	~SpotLight() = default;
 };
